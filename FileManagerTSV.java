@@ -102,9 +102,8 @@ public class FileManagerTSV {
             );
             //scrivo nel file le righe intressate
             for (String[] row : fileData) {
-                writer.printf("%3$3s\t%5$s\t%6$s",
-                        //row[0], row[1], row[2], row[3], row[4], row[5]);
-                        row[0], row[1], row[2]);
+                writer.printf("%1$20s",
+                        row[0]);
                 writer.println();
             }
         }

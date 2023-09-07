@@ -11,7 +11,7 @@ public class provaMain {
         // ArrayList<String[]> array = fileReader.tsvr(new File("RepeatsDB-table.tsv"),start,end,pdb);
         ArrayList<String[]> array =new ArrayList<>();
         array.add(fileReader.tsvr(new File("RepeatsDB-table.tsv"),pdb));
-        fileReader.createFileTSV(array);
+        //fileReader.createFileTSV2(array);
 
     }
 

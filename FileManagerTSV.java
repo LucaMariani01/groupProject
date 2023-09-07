@@ -5,6 +5,28 @@ import java.util.ArrayList;
 
 
 public class FileManagerTSV {
+
+    public String getNextPdb(File fileTSV, ArrayList<String> arrayPDB){
+        ArrayList<String[]> Data = new ArrayList<>();
+        int cont =0 ;
+        // leggo e registro le righe del file tsv
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
+            String line = null;
+            while ((line = TSVReader.readLine()) != null) {
+                if(cont== 0) cont=1;
+                else {
+                    String[] lineItems = line.split("\t");
+                    if (! arrayPDB.contains(lineItems[2])){
+                        return lineItems[2];
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return "NULL";
+
+    }
     /** metodo per leggere il file tsv
      *
      * @param fileTSV nome del file da leggere

@@ -25,8 +25,8 @@ public class FileManagerTSV {
             System.out.println("Something went wrong");
         }
         return "NULL";
-
     }
+
     /** metodo per leggere il file tsv
      *
      * @param fileTSV nome del file da leggere
@@ -40,17 +40,20 @@ public class FileManagerTSV {
          * Arraylist delle righe lette dal file tsv
          */
         ArrayList<String[]> Data = new ArrayList<>();
-        int cont =0 ;
-        // leggo e registro le righe del file tsv
+        int cont =0;
+
+        // leggo e registro le righe del file pdb
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
             String line = null;
             while ((line = TSVReader.readLine()) != null) {
                 if(cont== 0) cont=1;
                 else {
-                    String[] lineItems = line.split("\t");
+                    line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
+                    String[] lineItems = line.split(" "); //splitto stringa in un array
 
-                    if (Integer.parseInt(lineItems[4]) >= start && Integer.parseInt(lineItems[5]) <= end && pdb.compareTo(lineItems[2]) == 0)
-                        Data.add(lineItems);
+                    if(lineItems[0].compareTo("ATOM") == 0)
+                        if (Integer.parseInt(lineItems[5]) >= start && Integer.parseInt(lineItems[5]) <= end && (lineItems[4].compareTo("A") == 0))
+                            Data.add(lineItems);
                 }
             }
         } catch (Exception e) {
@@ -58,7 +61,6 @@ public class FileManagerTSV {
         }
         return Data;
     }
-
 
     public String[] tsvr(File fileTSV, String pdb){
         int minStart=-1, maxEnd=-1;
@@ -97,15 +99,11 @@ public class FileManagerTSV {
      */
     public void createFileTSV(ArrayList<String[]> fileData)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
-        try (PrintWriter writer = new PrintWriter(
-                Files.newBufferedWriter(Paths.get("RepeatsDB-table-trimmed.tsv")))) {
-            writer.println(
-                    "Reviewed\t"+ "Classification\t"+ "RepeatsDB ID\t"+ "Type\t"+ "start\t"+ "end"
-            );
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola.pdb")))) {
             //scrivo nel file le righe intressate
             for (String[] row : fileData) {
-                writer.printf("%1$20s\t%2$3s\t%3$3s\t%4$3s\t%5$s\t%6$s",
-                        row[0], row[1], row[2], row[3], row[4], row[5]);
+                writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
                 writer.println();
             }
         }

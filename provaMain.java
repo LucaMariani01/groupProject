@@ -1,22 +1,17 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class provaMain {
-
     public static void main(String[] args)throws Exception {
-        int start=437,end=497;
-
-        ArrayList<String> pdbAnalizzati = new ArrayList<>();
         FileManagerTSV fileReader = new FileManagerTSV();
-        ArrayList<String[]> array = new ArrayList<>();
-        //while (fileReader.getNextPdb(new File("RepeatsDB-table.tsv"),pdbAnalizzati).compareTo("NULL")!=0) {
+        String pdb = "6n8tA", filePdb = "6n8t.pdb", fileTsv = "RepeatsDB-table.tsv",catena = "A";
 
-        // ArrayList<String[]> array = fileReader.tsvr(new File("RepeatsDB-table.tsv"),start,end,pdb);
-        //array.add(fileReader.tsvr(new File("RepeatsDB-table.tsv"), fileReader.getNextPdb(new File("RepeatsDB-table.tsv"),pdbAnalizzati)));
-        array = fileReader.tsvr(new File("6n8t.pdb"),start,end,"6n8t");
+        Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv,pdb); //funzione per ottenere start end di un pdb passato
+        System.out.println("start: "+startEndPdb[0]);
+        System.out.println("end: "+startEndPdb[1]);
 
-        //(pdbAnalizzati.add(fileReader.getNextPdb(new File("RepeatsDB-table.tsv"),pdbAnalizzati));
-        fileReader.createFileTSV(array);
+        //funzione per estrarre dati da file .pdb di un certo pdb con i relativi start e end
+        ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb),startEndPdb[0],startEndPdb[1],pdb,catena);
+        fileReader.createFilePDB(array);
     }
 }

@@ -27,32 +27,27 @@ public class FileManagerTSV {
         return "NULL";
     }
 
-    /** metodo per leggere il file tsv
-     *
-     * @param fileTSV nome del file da leggere
+    /**
+     * Metodo per leggere il file pdb
+     * @param filePDB nome del file da leggere
      * @param start inizio dell'intervallo di interesse
      * @param end fine dell'intervallo di interesse
      * @param pdb
      * @return regione di interesse
      */
-    public ArrayList<String[]> tsvr(File fileTSV, int start, int end, String pdb) {
-        /**
-         * Arraylist delle righe lette dal file tsv
-         */
-        ArrayList<String[]> Data = new ArrayList<>();
-        int cont =0;
+    public ArrayList<String[]> pdbReader(File filePDB, int start, int end, String pdb,String catena) {
+        ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+        String line = "";
+        int cont = 0;
 
-        // leggo e registro le righe del file pdb
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
-            String line = null;
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
             while ((line = TSVReader.readLine()) != null) {
-                if(cont== 0) cont=1;
+                if(cont == 0) cont = 1;
                 else {
                     line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
                     String[] lineItems = line.split(" "); //splitto stringa in un array
-
                     if(lineItems[0].compareTo("ATOM") == 0)
-                        if (Integer.parseInt(lineItems[5]) >= start && Integer.parseInt(lineItems[5]) <= end && (lineItems[4].compareTo("A") == 0))
+                        if (Integer.parseInt(lineItems[5]) >= start && Integer.parseInt(lineItems[5]) <= end && (lineItems[4].compareTo(catena) == 0))
                             Data.add(lineItems);
                 }
             }
@@ -60,6 +55,42 @@ public class FileManagerTSV {
             System.out.println("Something went wrong");
         }
         return Data;
+    }
+
+    /**
+     * Funzione per ottenere start end di un pdb passato
+     * @param fileTsv file TSV da analizzare
+     * @param pdb pdb da cui vogliamo ottenere start e end
+     * @return array contenente in posizione 0 lo start, e in 1 end del pdb passato tra i parametri
+     */
+    public Integer[] getStartEndPdb(String fileTsv,String pdb) {
+        int minStart=-1, maxEnd=-1;
+        String line = "";
+        int cont =0 ;
+
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTsv))) {
+            while ((line = TSVReader.readLine()) != null) {
+                if(cont == 0) cont = 1;
+                else {
+                    String[] lineItems = line.split("\t");
+                    if(pdb.compareTo(lineItems[2]) == 0) {
+                        if (minStart == -1 && maxEnd == -1) {
+                            minStart = Integer.parseInt(lineItems[4]);
+                            maxEnd = Integer.parseInt(lineItems[5]);
+                        }else {
+                            if (Integer.parseInt(lineItems[4]) < minStart) minStart = Integer.parseInt(lineItems[4]);
+                            if (Integer.parseInt(lineItems[5]) > maxEnd )  maxEnd = Integer.parseInt(lineItems[5]);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        Integer[] result = new Integer[2];
+        result[0] = minStart;
+        result[1] = maxEnd;
+        return (result);
     }
 
     public String[] tsvr(File fileTSV, String pdb){
@@ -93,11 +124,11 @@ public class FileManagerTSV {
     }
 
     /**
-     * Metodo che crea il nuovo file TSV
+     * Metodo che crea il nuovo file PDB
      * @param fileData righe da scrivere nel nuovo file
      * @throws IOException
      */
-    public void createFileTSV(ArrayList<String[]> fileData)throws IOException {
+    public void createFilePDB(ArrayList<String[]> fileData)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola.pdb")))) {
             //scrivo nel file le righe intressate

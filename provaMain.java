@@ -13,5 +13,7 @@ public class provaMain {
         //funzione per estrarre dati da file .pdb di un certo pdb con i relativi start e end
         ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb),startEndPdb[0],startEndPdb[1],pdb,catena);
         fileReader.createFilePDB(array);
+
+
     }
 }

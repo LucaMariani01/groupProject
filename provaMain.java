@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class provaMain {
     public static void main(String[] args)throws Exception {
+
         FileManagerTSV fileReader = new FileManagerTSV();
         String pdb = "6n8tA", filePdb = "6n8t.pdb", fileTsv = "RepeatsDB-table.tsv",catena = "A";
 
@@ -14,6 +15,8 @@ public class provaMain {
         ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb),startEndPdb[0],startEndPdb[1],pdb,catena);
         fileReader.createFilePDB(array);
 
+        AasGeneretor aasGeneretor = new AasGeneretor();
+        ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"),startEndPdb[0]);
 
     }
 }

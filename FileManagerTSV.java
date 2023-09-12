@@ -93,6 +93,7 @@ public class FileManagerTSV {
         return (result);
     }
 
+    /*
     public String[] tsvr(File fileTSV, String pdb){
         int minStart=-1, maxEnd=-1;
         ArrayList<String[]> Data = new ArrayList<>();
@@ -121,7 +122,7 @@ public class FileManagerTSV {
         String[] result= new String[10];
         result[0] = ""+pdb+"\t"+minStart+"\t"+maxEnd;
         return (result);
-    }
+    }*/
 
     /**
      * Metodo che crea il nuovo file PDB
@@ -139,7 +140,7 @@ public class FileManagerTSV {
             }
         }
     }
-
+/*
     public void createFileTSV2(ArrayList<String[]> fileData)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
         try (PrintWriter writer = new PrintWriter(
@@ -154,5 +155,5 @@ public class FileManagerTSV {
                 writer.println();
             }
         }
-    }
+    }*/
 }

@@ -18,9 +18,9 @@ public class AasGeneretor {
                     String[] lineItems = line.split(":");
                     n1= (Integer.parseInt(lineItems[1])-start)+1;
                     n2= (Integer.parseInt(lineItems[5])-start)+1;
-                    val1= this.parser(lineItems[3].substring(0,2));
-                    val2=this.parser(lineItems[5].substring(0,3));
-                    System.out.println("N1:"+n1+" N2:"+n2+" val1:"+val1+"val2:"+val2);
+                    val1= this.parser(lineItems[3].substring(0,3));
+                    val2=this.parser(lineItems[7].substring(0,3));
+                    System.out.println("\nN1:"+n1+" N2:"+n2+" val1: "+val1+" val2: "+val2);
                 }
             }
         } catch (Exception e) {
@@ -32,7 +32,6 @@ public class AasGeneretor {
     }
 
     private String parser(String s){
-
         return switch (s) {
             case "ALA" -> "A";
             case "CYS" -> "C";
@@ -53,7 +52,7 @@ public class AasGeneretor {
             case "THR" -> "T";
             case "VAL" -> "V";
             case "TRP" -> "W";
-            case "TIR" -> "Y";
+            case "TYR" -> "Y";
             default -> "";
         };
     }

@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class provaMain {
     public static void main(String[] args)throws Exception {
@@ -21,6 +23,29 @@ public class provaMain {
 
                 ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], pdb, catena);
                 fileReader.createFilePDB(array);
+                // Specifica il comando e gli argomenti del programma da eseguire
+                List<String> comando = new ArrayList<>();
+                comando.add("./ring"); // Sostituisci "nome_programma" con il nome del programma da eseguire
+                comando.add("-i");
+                comando.add("molecolaCompressa.pdb");
+                comando.add("--out_dir");
+                comando.add("deskstop");
+
+                ProcessBuilder processBuilder = new ProcessBuilder(comando);
+
+                try {
+                    // Avvia il processo
+                    Process processo = processBuilder.start();
+
+                    // Attendere il completamento del processo (se necessario)
+                    int stato = processo.waitFor();
+
+                    // Puoi fare qualcosa con lo stato di uscita, se necessario
+                    System.out.println("Il programma ha restituito il codice di uscita: " + stato);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("File generato");
             }
             case 2 -> {
                 AasGeneretor aasGeneretor = new AasGeneretor();

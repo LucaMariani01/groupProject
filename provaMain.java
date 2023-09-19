@@ -19,17 +19,19 @@ public class provaMain {
         System.out.println("end: " + startEndPdb[1]);
 
         switch (scelta) {
-            case 1 -> {
+            case 1 ->{
 
                 ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], pdb, catena);
                 fileReader.createFilePDB(array);
+
+
                 // Specifica il comando e gli argomenti del programma da eseguire
                 List<String> comando = new ArrayList<>();
-                comando.add("./ring"); // Sostituisci "nome_programma" con il nome del programma da eseguire
+                comando.add("ring");
                 comando.add("-i");
-                comando.add("molecolaCompressa.pdb");
+                comando.add("molecola.pdb");
                 comando.add("--out_dir");
-                comando.add("deskstop");
+                comando.add("/home/diego/Scrivania");
 
                 ProcessBuilder processBuilder = new ProcessBuilder(comando);
 
@@ -46,6 +48,8 @@ public class provaMain {
                     e.printStackTrace();
                 }
                 System.out.println("File generato");
+
+
             }
             case 2 -> {
                 AasGeneretor aasGeneretor = new AasGeneretor();

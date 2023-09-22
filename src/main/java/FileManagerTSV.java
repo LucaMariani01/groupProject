@@ -6,29 +6,8 @@ import java.util.ArrayList;
 
 public class FileManagerTSV {
 
-    public String getNextPdb(File fileTSV, ArrayList<String> arrayPDB){
-        ArrayList<String[]> Data = new ArrayList<>();
-        int cont =0 ;
-        // leggo e registro le righe del file tsv
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
-            String line = null;
-            while ((line = TSVReader.readLine()) != null) {
-                if(cont== 0) cont=1;
-                else {
-                    String[] lineItems = line.split("\t");
-                    if (! arrayPDB.contains(lineItems[2])){
-                        return lineItems[2];
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong");
-        }
-        return "NULL";
-    }
-
     /**
-     * Metodo per leggere il file pdb
+     * Metodo per leggere il file pdb e tagliare le informazioni superflue
      * @param filePDB nome del file da leggere
      * @param start inizio dell'intervallo di interesse
      * @param end fine dell'intervallo di interesse
@@ -94,11 +73,11 @@ public class FileManagerTSV {
     }
 
     /**
-     * Metodo che crea il nuovo file PDB
+     * Metodo che crea il nuovo file PDB da dare in input a ring
      * @param fileData righe da scrivere nel nuovo file
      * @throws IOException
      */
-    public void createFilePDB(ArrayList<String[]> fileData)throws IOException {
+    public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola.pdb")))) {
             //scrivo nel file le righe intressate
@@ -108,5 +87,27 @@ public class FileManagerTSV {
                 writer.println();
             }
         }
+    }
+
+    public ArrayList<String> getPDBList(File repeatsDB){
+        ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+        String line = "";
+        int cont = 0;
+
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(repeatsDB))) { // leggo e registro le righe del file pdb
+            while ((line = TSVReader.readLine()) != null) {
+                if(cont == 0) cont = 1;
+                else {
+                    line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
+                    String[] lineItems = line.split(" "); //splitto stringa in un array
+                    if(!pdbList.contains(lineItems[5])){
+                        pdbList.add(lineItems[5]);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return pdbList;
     }
 }

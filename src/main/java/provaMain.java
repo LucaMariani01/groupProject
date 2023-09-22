@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,24 +7,24 @@ import java.util.Scanner;
 
 public class provaMain {
     public static void main(String[] args)throws Exception {
+
         Menu m = new Menu();
 
         FileManagerTSV fileReader = new FileManagerTSV();
-        String pdb = "6n8tA", filePdb = "6n8t.pdb", fileTsv = "RepeatsDB-table.tsv",catena = "A";
+        String fileTsv = "RepeatsDB-table.tsv";
 
         m.displayMenu();
         int scelta = m.scelta();
-        Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv, pdb); //funzione per ottenere start end di un pdb passato
 
-        System.out.println("start: " + startEndPdb[0]);
-        System.out.println("end: " + startEndPdb[1]);
+
+
 
         do {
             switch (scelta) {
                 case 1 -> {
 
                     // metterlo in una funzione e toglierlo dal main
-                    ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], pdb, catena);
+
                     fileReader.createFilePDB(array);
                     Scanner s = new Scanner(System.in);
 
@@ -63,4 +64,7 @@ public class provaMain {
             scelta = m.scelta();
         }while(scelta!=0);
     }
+
+
+
 }

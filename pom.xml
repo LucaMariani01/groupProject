@@ -19,7 +19,8 @@
             <artifactId>biojava-core</artifactId>
             <version>7.0.2</version>
         </dependency>
-        <!-- other biojava modules as needed -->
+
+
     </dependencies>
 
 </project>

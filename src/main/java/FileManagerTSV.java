@@ -93,37 +93,6 @@ public class FileManagerTSV {
         return (result);
     }
 
-    /*
-    public String[] tsvr(File fileTSV, String pdb){
-        int minStart=-1, maxEnd=-1;
-        ArrayList<String[]> Data = new ArrayList<>();
-
-        int cont =0 ;
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
-            String line = null;
-            while ((line = TSVReader.readLine()) != null) {
-                if(cont== 0) cont=1;
-                else {
-                    String[] lineItems = line.split("\t");
-                    if(pdb.compareTo(lineItems[2]) == 0) {
-                        if (minStart == -1 && maxEnd == -1) {
-                            minStart = Integer.parseInt(lineItems[4]);
-                            maxEnd = Integer.parseInt(lineItems[5]);
-                        }else {
-                            if (Integer.parseInt(lineItems[4]) < minStart)   minStart = Integer.parseInt(lineItems[4]);
-                            if (Integer.parseInt(lineItems[5]) > maxEnd )  maxEnd = Integer.parseInt(lineItems[5]);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong");
-        }
-        String[] result= new String[10];
-        result[0] = ""+pdb+"\t"+minStart+"\t"+maxEnd;
-        return (result);
-    }*/
-
     /**
      * Metodo che crea il nuovo file PDB
      * @param fileData righe da scrivere nel nuovo file
@@ -140,20 +109,4 @@ public class FileManagerTSV {
             }
         }
     }
-/*
-    public void createFileTSV2(ArrayList<String[]> fileData)throws IOException {
-        //creo il nuovo file tsv contente l'intervallo di interesse
-        try (PrintWriter writer = new PrintWriter(
-                Files.newBufferedWriter(Paths.get("RepeatsDB-table-trimmed.tsv")))) {
-            writer.println(
-                    "RepeatsDB ID\t"+ "start\t"+ "end"
-            );
-            //scrivo nel file le righe intressate
-            for (String[] row : fileData) {
-                writer.printf("%1$20s",
-                        row[0]);
-                writer.println();
-            }
-        }
-    }*/
 }

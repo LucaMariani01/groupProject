@@ -17,6 +17,7 @@ public class AasGeneretor {
             while ((line = TSVReader.readLine()) != null) {
                 if(cont== 0) cont=1;
                 else {
+                    //metterlo su una funzione privata
                     String[] lineItems = line.split(":");
                     n1 = (Integer.parseInt(lineItems[1])-start)+1;
                     n2 = (Integer.parseInt(lineItems[5])-start)+1;
@@ -63,7 +64,7 @@ public class AasGeneretor {
 
     private void buildAASFile(String lista_amminoacidi, String lista_legami){
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("legami.aas.txt")))) {
-            //scrivo nel file le righe intressate
+            //scrivo nel file le righe interessate
             writer.println(lista_amminoacidi);
             writer.printf(lista_legami);
         } catch (IOException e) {

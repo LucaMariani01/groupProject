@@ -22,6 +22,7 @@ public class provaMain {
             switch (scelta) {
                 case 1 -> {
 
+                    // metterlo in una funzione e toglierlo dal main
                     ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], pdb, catena);
                     fileReader.createFilePDB(array);
                     Scanner s = new Scanner(System.in);
@@ -52,8 +53,6 @@ public class provaMain {
                         e.printStackTrace();
                     }
                     System.out.println("File generato");
-
-
                 }
                 case 2 -> {
                     AasGeneretor aasGeneretor = new AasGeneretor();
@@ -63,16 +62,5 @@ public class provaMain {
             m.displayMenu();
             scelta = m.scelta();
         }while(scelta!=0);
-      /*  Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv,pdb); //funzione per ottenere start end di un pdb passato
-        System.out.println("start: "+startEndPdb[0]);
-        System.out.println("end: "+startEndPdb[1]);
-
-
-        ArrayList<String[]> array = fileReader.pdbReader(new File(filePdb),startEndPdb[0],startEndPdb[1],pdb,catena);
-        fileReader.createFilePDB(array);
-
-        AasGeneretor aasGeneretor = new AasGeneretor();
-        ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"),startEndPdb[0]);
-*/
     }
 }

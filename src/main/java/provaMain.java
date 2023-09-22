@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class provaMain {
     public static void main(String[] args)throws Exception {
-
         Menu m = new Menu();
 
         FileManagerTSV fileReader = new FileManagerTSV();
@@ -63,7 +62,7 @@ public class provaMain {
             }
             m.displayMenu();
             scelta = m.scelta();
-        }while (scelta!=0);
+        }while(scelta!=0);
       /*  Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv,pdb); //funzione per ottenere start end di un pdb passato
         System.out.println("start: "+startEndPdb[0]);
         System.out.println("end: "+startEndPdb[1]);

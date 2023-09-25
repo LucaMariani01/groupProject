@@ -1,3 +1,17 @@
+import org.biojava.nbio.core.sequence.DNASequence;
+import org.biojava.nbio.core.sequence.compound.AmbiguityDNACompoundSet;
+import org.biojava.nbio.structure.Atom;
+import org.biojava.nbio.structure.AtomIterator;
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.align.util.AtomCache;
+import org.biojava.nbio.structure.io.PDBFileReader;
+import org.biojava.nbio.structure.Atom;
+import org.biojava.nbio.structure.AtomIterator;
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.io.PDBFileReader;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -11,24 +25,22 @@ public class provaMain {
         Menu m = new Menu();
 
         FileManagerTSV fileReader = new FileManagerTSV();
-        String fileTsv = "RepeatsDB-table.tsv";
+        String fileTsv = "RepeatsDB-table.tsv",pdb = "6n8t";
 
         m.displayMenu();
         int scelta = m.scelta();
 
-
-
-
         do {
             switch (scelta) {
                 case 1 -> {
+                    FileInputRingGenerator ringInputGenerator = new FileInputRingGenerator(fileReader,fileTsv);
+                    ringInputGenerator.fileGenerator();
 
-                    // metterlo in una funzione e toglierlo dal main
-
+/*
                     fileReader.createFilePDB(array);
                     Scanner s = new Scanner(System.in);
 
-                    System.out.println("Inserisci il percorso di destinazione dei file generati d RING");
+                    System.out.println("Inserisci il percorso di destinazione dei file generati di RING");
                     String path = s.next();
 
                     // Specifica il comando e gli argomenti del programma da eseguire
@@ -54,10 +66,12 @@ public class provaMain {
                         e.printStackTrace();
                     }
                     System.out.println("File generato");
+                    */
                 }
                 case 2 -> {
                     AasGeneretor aasGeneretor = new AasGeneretor();
-                    ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"), startEndPdb[0]);
+                    //ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"), startEndPdb[0]);
+                    ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"),0);
                 }
             }
             m.displayMenu();

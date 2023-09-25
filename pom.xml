@@ -25,6 +25,13 @@
             <artifactId>biojava-structure-gui</artifactId>
             <version>7.0.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava-alignment</artifactId>
+            <version>7.0.2</version>
+        </dependency>
+
     </dependencies>
 
 </project>

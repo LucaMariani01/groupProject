@@ -18,9 +18,9 @@ public class FileManagerTSV {
         ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
         String line;
         int cont = 0;
-        System.out.println("SONO fuori "+filePDB.getName());
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
 
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
+            System.out.println("SONO dentro "+filePDB.getName());
             while ((line = TSVReader.readLine()) != null) {
                 if(cont == 0) cont = 1;
                 else {
@@ -80,7 +80,7 @@ public class FileManagerTSV {
      */
     public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola.pdb")))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
             //scrivo nel file le righe intressate
             for (String[] row : fileData) {
                 writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",

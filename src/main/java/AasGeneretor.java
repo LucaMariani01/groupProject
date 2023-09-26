@@ -10,8 +10,9 @@ public class AasGeneretor {
         ArrayList<String[]>  result= new ArrayList<>();
         String lista_amminoacidi = "";
         String lista_legami="";
+        int cont =0;
 
-        int cont =0 ;
+        System.out.println("nome file: "+fileTSV.getPath());
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
             String line;
             while ((line = TSVReader.readLine()) != null) {

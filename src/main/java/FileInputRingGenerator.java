@@ -78,10 +78,10 @@ public class FileInputRingGenerator {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("File generato");
+            System.out.println("File generato "+singlePDB);
 
             AasGeneretor aasGeneretor = new AasGeneretor();
-            ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola"+singlePDB+".pdb_ringEdges"), startEndPdb[0]);
+            ArrayList<String[]> app = aasGeneretor.readerEdges(new File("/home/filippo/Scrivania/molecola"+singlePDB+".pdb_ringEdges"), startEndPdb[0]);
         //}
 
     }

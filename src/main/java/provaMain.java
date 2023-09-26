@@ -71,7 +71,7 @@ public class provaMain {
                 case 2 -> {
                     AasGeneretor aasGeneretor = new AasGeneretor();
                     //ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"), startEndPdb[0]);
-                    ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola.pdb_ringEdges"),0);
+                    ArrayList<String[]> app = aasGeneretor.readerEdges(new File("molecola"+pdb+".pdb_ringEdges"),0);
                 }
             }
             m.displayMenu();

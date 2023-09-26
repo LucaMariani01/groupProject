@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public class AasGeneretor {
     public ArrayList<String[]> readerEdges(File fileTSV,int start){
-        int n1=0,n2=0;
-        String val1="",val2="";
+        int n1,n2;
+        String val1,val2;
         ArrayList<String[]>  result= new ArrayList<>();
         String lista_amminoacidi = "";
         String lista_legami="";
 
         int cont =0 ;
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
-            String line = null;
+            String line;
             while ((line = TSVReader.readLine()) != null) {
                 if(cont== 0) cont=1;
                 else {

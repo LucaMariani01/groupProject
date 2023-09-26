@@ -1,5 +1,4 @@
 import org.biojava.nbio.structure.Structure;
-import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.io.PDBFileReader;
 
 import java.io.File;
@@ -18,7 +17,7 @@ public class FileInputRingGenerator {
     }
 
     public void fileGenerator()throws Exception{
-        ArrayList<String> pdbList = fileReader.getPDBList(new File (fileTsv));
+       // ArrayList<String> pdbList = fileReader.getPDBList(new File (fileTsv));
         //for(String singlePDB : pdbList){
         String singlePDB = "1avyA";
             Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv, singlePDB); //funzione per ottenere start end di tutti ip db
@@ -64,14 +63,14 @@ public class FileInputRingGenerator {
             comando.add("--out_dir");
             comando.add(path);
 
-            ProcessBuilder processBuilder1 = new ProcessBuilder(comando);
+            ProcessBuilder processBuilder1 = new ProcessBuilder(comando1);
 
             try {
                 // Avvia il processo
-                Process processo1 = processBuilder.start();
+                Process processo1 = processBuilder1.start();
 
                 // Attendere il completamento del processo (se necessario)
-                int stato = processo.waitFor();
+                int stato = processo1.waitFor();
 
                 // Puoi fare qualcosa con lo stato di uscita, se necessario
                 System.out.println("Il programma ha restituito il codice di uscita: " + stato);

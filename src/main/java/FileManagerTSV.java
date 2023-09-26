@@ -11,12 +11,12 @@ public class FileManagerTSV {
      * @param filePDB nome del file da leggere
      * @param start inizio dell'intervallo di interesse
      * @param end fine dell'intervallo di interesse
-     * @param pdb
+     * @param pdb pdb interessato
      * @return regione di interesse
      */
     public ArrayList<String[]> pdbReader(File filePDB, int start, int end, String pdb,String catena) {
         ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
-        String line = "";
+        String line;
         int cont = 0;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
@@ -44,7 +44,7 @@ public class FileManagerTSV {
      */
     public Integer[] getStartEndPdb(String fileTsv,String pdb) {
         int minStart=-1, maxEnd=-1;
-        String line = "";
+        String line;
         int cont =0 ;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTsv))) {
@@ -75,7 +75,7 @@ public class FileManagerTSV {
     /**
      * Metodo che crea il nuovo file PDB da dare in input a ring
      * @param fileData righe da scrivere nel nuovo file
-     * @throws IOException
+     * @throws IOException se forniamo dati sbagliati
      */
     public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
@@ -91,7 +91,7 @@ public class FileManagerTSV {
 
     public ArrayList<String> getPDBList(File repeatsDB){
         ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
-        String line = "";
+        String line;
         int cont = 0;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(repeatsDB))) { // leggo e registro le righe del file pdb

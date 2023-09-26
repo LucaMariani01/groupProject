@@ -34,6 +34,7 @@ public class FileInputRingGenerator {
                 e.printStackTrace();
             }
 
+            // TODO (26/09/23)  cambiare av nel path
             String pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"+singlePDB.substring(0,singlePDB.length()-1)+".ent.gz";
             System.out.println("percorso "+pdbPath);
             List<String> comando = new ArrayList<>();
@@ -43,7 +44,7 @@ public class FileInputRingGenerator {
             Process processo = processBuilder.start();
             processo.waitFor();
             ////////////////
-
+            pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"+singlePDB.substring(0,singlePDB.length()-1)+".ent";
            // in teoria se la struttura è la medesima possiamo legge il file .ent con la stessa funzione del pdb
            // TODO (26/09/23) testiamo che non ho fatto in tempo
             //ArrayList<String[]> contenutoFileTagliato = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], singlePDB, singlePDB.charAt(singlePDB.length()-1));
@@ -56,18 +57,18 @@ public class FileInputRingGenerator {
             String path = s.next();
 
             // Specifica il comando e gli argomenti del programma da eseguire
-            List<String> comando1 = new ArrayList<>();
+            comando = new ArrayList<>();
             comando.add("ring");
             comando.add("-i");
             comando.add("molecola"+singlePDB+".pdb");
             comando.add("--out_dir");
             comando.add(path);
 
-            ProcessBuilder processBuilder1 = new ProcessBuilder(comando1);
+            processBuilder = new ProcessBuilder(comando);
 
             try {
                 // Avvia il processo
-                Process processo1 = processBuilder1.start();
+                Process processo1 = processBuilder.start();
 
                 // Attendere il completamento del processo (se necessario)
                 int stato = processo1.waitFor();

@@ -18,8 +18,9 @@ public class FileManagerTSV {
         ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
         String line;
         int cont = 0;
-
+        System.out.println("SONO fuori "+filePDB.getName());
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
+
             while ((line = TSVReader.readLine()) != null) {
                 if(cont == 0) cont = 1;
                 else {
@@ -31,7 +32,7 @@ public class FileManagerTSV {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong QUAAA");
         }
         return Data;
     }

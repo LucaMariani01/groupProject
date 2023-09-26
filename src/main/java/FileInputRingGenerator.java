@@ -45,8 +45,8 @@ public class FileInputRingGenerator {
             processo.waitFor();
             ////////////////
 
-            pdbPath = pdbPath.replace(".ent",".pdb");
-            System.out.println("path "+pdbPath);  //DOBBIAMO CAMBIARE IL FILE NON IL PERCORSO DEL FILE!!!!! TODO (26/09/23)
+           // in teoria se la struttura è la medesima possiamo legge il file .ent con la stessa funzione del pdb
+           // TODO (26/09/23) testiamo che non ho fatto in tempo
             //ArrayList<String[]> contenutoFileTagliato = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], singlePDB, singlePDB.charAt(singlePDB.length()-1));
             ArrayList<String[]> contenutoFileTagliato = fileReader.pdbReader(new File(pdbPath), startEndPdb[0], startEndPdb[1], singlePDB, String.valueOf(singlePDB.charAt(singlePDB.length()-1)));
 

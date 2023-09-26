@@ -81,7 +81,7 @@ public class FileManagerTSV {
     public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
         //creo il nuovo file tsv contente l'intervallo di interesse
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
-            //scrivo nel file le righe intressate
+            //scrivo nel file le righe interessate
             for (String[] row : fileData) {
                 writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
                         row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
@@ -90,6 +90,11 @@ public class FileManagerTSV {
         }
     }
 
+    /**
+     * Funzione che si andrà a richiamare quando si analizzerà tutti i pdn di un certo file tsv
+     * @param repeatsDB
+     * @return
+     */
     public ArrayList<String> getPDBList(File repeatsDB){
         ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
         String line;

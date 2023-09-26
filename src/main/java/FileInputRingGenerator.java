@@ -20,68 +20,57 @@ public class FileInputRingGenerator {
        // ArrayList<String> pdbList = fileReader.getPDBList(new File (fileTsv));
         //for(String singlePDB : pdbList){
         String singlePDB = "1avyA";
-            Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv, singlePDB); //funzione per ottenere start end di tutti ip db
 
-            /////////////////
-            try {
-                PDBFileReader pdbReader = new PDBFileReader();
-                pdbReader.setPath("path_to_pdb_cache_directory");
-                //String pdbId = "6n8t";
-                System.out.println("pdb corrente: "+singlePDB.substring(0,singlePDB.length()-1));
-                Structure structure = pdbReader.getStructureById(singlePDB.substring(0,singlePDB.length()-1));
-                structure.toPDB();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv, singlePDB); //funzione per ottenere start end di tutti ip db
 
-            // TODO (26/09/23)  cambiare av nel path
-            String pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"+singlePDB.substring(0,singlePDB.length()-1)+".ent.gz";
-            System.out.println("percorso "+pdbPath);
-            List<String> comando = new ArrayList<>();
-            comando.add("gunzip");
-            comando.add(pdbPath);
-            ProcessBuilder processBuilder = new ProcessBuilder(comando);
-            Process processo = processBuilder.start();
-            processo.waitFor();
-            ////////////////
-            pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"+singlePDB.substring(0,singlePDB.length()-1)+".ent";
-           // in teoria se la struttura è la medesima possiamo legge il file .ent con la stessa funzione del pdb
-           // TODO (26/09/23) testiamo che non ho fatto in tempo
-            //ArrayList<String[]> contenutoFileTagliato = fileReader.pdbReader(new File(filePdb), startEndPdb[0], startEndPdb[1], singlePDB, singlePDB.charAt(singlePDB.length()-1));
-            ArrayList<String[]> contenutoFileTagliato = fileReader.pdbReader(new File(pdbPath), startEndPdb[0], startEndPdb[1], singlePDB, String.valueOf(singlePDB.charAt(singlePDB.length()-1)));
+        try {
+            PDBFileReader pdbReader = new PDBFileReader();
+            pdbReader.setPath("path_to_pdb_cache_directory");
+            Structure structure = pdbReader.getStructureById(singlePDB.substring(0,singlePDB.length()-1));
+            structure.toPDB();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            fileReader.createFilePDB(contenutoFileTagliato,singlePDB);
-            Scanner s = new Scanner(System.in);
+        String pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"
+                +singlePDB.substring(0,singlePDB.length()-1)+".ent.gz";
 
-            System.out.println("Inserisci il percorso di destinazione dei file generati da RING");
-            String path = s.next();
+        List<String> comando = new ArrayList<>();
+        comando.add("gunzip");
+        comando.add(pdbPath);
+        ProcessBuilder processBuilder = new ProcessBuilder(comando);
+        Process processo = processBuilder.start();
+        processo.waitFor();
+        pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/av/pdb"
+                +singlePDB.substring(0,singlePDB.length()-1)+".ent";
 
-            // Specifica il comando e gli argomenti del programma da eseguire
-            comando = new ArrayList<>();
-            comando.add("ring");
-            comando.add("-i");
-            comando.add("molecola"+singlePDB+".pdb");
-            comando.add("--out_dir");
-            comando.add(path);
+        fileReader.createFilePDB(fileReader.pdbReader(new File(pdbPath), startEndPdb[0], startEndPdb[1], singlePDB, String.valueOf(singlePDB.charAt(singlePDB.length()-1))),singlePDB);
+        Scanner s = new Scanner(System.in);
 
-            processBuilder = new ProcessBuilder(comando);
+        System.out.println("Inserisci il percorso di destinazione dei file generati da RING");
+        String path = s.next();
 
-            try {
-                // Avvia il processo
-                Process processo1 = processBuilder.start();
+        comando = new ArrayList<>();
+        comando.add("ring");
+        comando.add("-i");
+        comando.add("molecola"+singlePDB+".pdb");
+        comando.add("--out_dir");
+        comando.add(path);
 
-                // Attendere il completamento del processo (se necessario)
-                int stato = processo1.waitFor();
+        processBuilder = new ProcessBuilder(comando);
 
-                // Puoi fare qualcosa con lo stato di uscita, se necessario
-                System.out.println("Il programma ha restituito il codice di uscita: " + stato);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("File generato "+singlePDB);
+        try {
+            Process processo1 = processBuilder.start();
 
-            AasGeneretor aasGeneretor = new AasGeneretor();
-            ArrayList<String[]> app = aasGeneretor.readerEdges(new File("/home/filippo/Scrivania/molecola"+singlePDB+".pdb_ringEdges"), startEndPdb[0]);
+            // Attendere il completamento del processo (se necessario)
+            processo1.waitFor();
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        AasGeneretor aasGeneretor = new AasGeneretor();
+        ArrayList<String[]> app = aasGeneretor.readerEdges(new File("/home/filippo/Scrivania/molecola"+singlePDB+".pdb_ringEdges"), startEndPdb[0]);
         //}
 
     }

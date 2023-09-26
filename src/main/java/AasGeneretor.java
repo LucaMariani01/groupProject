@@ -5,32 +5,25 @@ import java.util.ArrayList;
 
 public class AasGeneretor {
     public ArrayList<String[]> readerEdges(File fileTSV,int start){
-        int n1,n2;
-        String val1,val2;
         ArrayList<String[]>  result= new ArrayList<>();
         String lista_amminoacidi = "";
         String lista_legami="";
         int cont =0;
 
-        System.out.println("nome file: "+fileTSV.getPath());
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
             String line;
             while ((line = TSVReader.readLine()) != null) {
                 if(cont== 0) cont=1;
                 else {
-                    //metterlo su una funzione privata
                     String[] lineItems = line.split(":");
-                    n1 = (Integer.parseInt(lineItems[1])-start)+1;
-                    n2 = (Integer.parseInt(lineItems[5])-start)+1;
-                    val1 = this.parser(lineItems[3].substring(0,3));
-                    val2 = this.parser(lineItems[7].substring(0,3));
-                    lista_amminoacidi= lista_amminoacidi+val1+val2;
-                    lista_legami = lista_legami+ "("+n1+","+n2+");" ;
-                    System.out.println("\nN1:"+n1+" N2:"+n2+" val1: "+val1+" val2: "+val2);
+                    lista_amminoacidi= lista_amminoacidi+this.parser(lineItems[3].substring(0,3))
+                            + this.parser(lineItems[7].substring(0,3));
+                    lista_legami = lista_legami+ "("+((Integer.parseInt(lineItems[1])-start)+1)+","
+                            +((Integer.parseInt(lineItems[5])-start)+1)+");" ;
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong AAS");
         }
         this.buildAASFile(lista_amminoacidi,lista_legami);
 

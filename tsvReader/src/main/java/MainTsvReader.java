@@ -6,9 +6,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class provaMain {
+public class MainTsvReader {
     public static void main(String[] args) throws Exception {
-        String singlePDB = "1avyA", fileTsv = "RepeatsDB-table.tsv";
+        //String singlePDB = "1avyA", fileTsv = "RepeatsDB-table.tsv";
+        String singlePDB = args[0], fileTsv = args[1];
         FileManagerTSV fileReader = new FileManagerTSV();
         Integer[] startEndPdb = fileReader.getStartEndPdb(fileTsv, singlePDB); //funzione per ottenere start end di tutti ip db
 

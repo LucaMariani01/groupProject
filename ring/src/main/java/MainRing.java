@@ -1,13 +1,14 @@
+package main.java;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class MainRing {
     public static void main(String[] args) {
-
-        String singlePDB="";
+        String singlePDB=args[0];
         Scanner s = new Scanner(System.in);
-//
+
         System.out.println("Inserisci il percorso di destinazione dei file generati da RING");
         String path = s.next();
 
@@ -22,10 +23,7 @@ public class Main {
 
         try {
             Process processo1 = processBuilder.start();
-
-            // Attendere il completamento del processo (se necessario)
-            processo1.waitFor();
-
+            processo1.waitFor(); // Attendere il completamento del processo (se necessario)
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

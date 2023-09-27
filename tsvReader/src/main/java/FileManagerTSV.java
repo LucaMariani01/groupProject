@@ -88,4 +88,31 @@ public class FileManagerTSV {
             }
         }
     }
+
+    /**
+     * Funzione che si andrà a richiamare quando si analizzerà tutti i pdn di un certo file tsv
+     * @param repeatsDB
+     * @return
+     */
+    public ArrayList<String> getPDBList(File repeatsDB){
+        ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+        String line;
+        int cont = 0;
+
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(repeatsDB))) { // leggo e registro le righe del file pdb
+            while ((line = TSVReader.readLine()) != null) {
+                if(cont == 0) cont = 1;
+                else {
+                    line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
+                    String[] lineItems = line.split(" "); //splitto stringa in un array
+                    if(!pdbList.contains(lineItems[5])){
+                        pdbList.add(lineItems[5]);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return pdbList;
+    }
 }

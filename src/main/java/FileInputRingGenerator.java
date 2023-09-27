@@ -17,7 +17,7 @@ public class FileInputRingGenerator {
     }
 
     public void fileGenerator()throws Exception{
-       // ArrayList<String> pdbList = fileReader.getPDBList(new File (fileTsv));
+        //ArrayList<String> pdbList = fileReader.getPDBList(new File (fileTsv));
         //for(String singlePDB : pdbList){
         String singlePDB = "1avyA";
 
@@ -46,7 +46,7 @@ public class FileInputRingGenerator {
 
         fileReader.createFilePDB(fileReader.pdbReader(new File(pdbPath), startEndPdb[0], startEndPdb[1], singlePDB, String.valueOf(singlePDB.charAt(singlePDB.length()-1))),singlePDB);
         Scanner s = new Scanner(System.in);
-
+//
         System.out.println("Inserisci il percorso di destinazione dei file generati da RING");
         String path = s.next();
 

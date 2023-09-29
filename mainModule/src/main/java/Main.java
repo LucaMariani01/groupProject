@@ -8,6 +8,7 @@ public class Main {
         FileManagerTSV fileReader = new FileManagerTSV();
 
         ArrayList<String> pdbList = fileReader.getPDBList(new File(fileTsv));
+        System.out.println("DIO PORCOOOOOOOOOO:["+pdbList.get(17)+"]");
         for(String singlePDB : pdbList) {
 
             MainTsvReader.main(new String[]{singlePDB,fileTsv});

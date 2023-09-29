@@ -82,9 +82,11 @@ public class FileManagerTSV {
     public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
             for (String[] row : fileData) { //scrivo nel file le righe interessate
-                writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
-                writer.println();
+                if (row.length>11) {
+                    writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
+                    writer.println();
+                }
             }
         }
     }
@@ -105,8 +107,15 @@ public class FileManagerTSV {
                 else {
                     line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
                     String[] lineItems = line.split(" "); //splitto stringa in un array
-                    if(!pdbList.contains(lineItems[5])){
-                        pdbList.add(lineItems[5]);
+                    if(lineItems[0].compareTo("RepeatsDB-lite")==0){
+                        if(!pdbList.contains(lineItems[5])){
+                            pdbList.add(lineItems[5]);
+                        }
+                    }else {
+
+                        if(!pdbList.contains(lineItems[2])){
+                            pdbList.add(lineItems[2]);
+                        }
                     }
                 }
             }

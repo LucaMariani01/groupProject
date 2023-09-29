@@ -1,5 +1,10 @@
 package main.java;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,6 +49,29 @@ public class FileManagerTSV {
     }
 
     /**
+     * Funzione per ottenere start end di un pdb passato
+     * @param fileJSON file JSON da analizzare
+     * @param pdb pdb da cui vogliamo ottenere start e end
+     * @return array contenente in posizione 0 lo start, e in 1 end del pdb passato tra i parametri
+     */
+    public JSONObject getPdbObject(String fileJSON, String pdb){
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader reader = new FileReader(fileJSON);
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            for (Object obj : jsonArray) { //scorro tutti i pdb appartenenti file JSON
+                JSONObject jsonObject = (JSONObject) obj;
+                if(((String) jsonObject.get("repeatsdb_id")).compareTo(pdb) == 0) { //ottengo start e end del pdb passato
+                    return jsonObject; //oggetto pdb trovato
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return null; //pdb non trovato
+    }
+
+    /**
      * Metodo per leggere il file pdb e tagliare le informazioni superflue
      * @param filePDB nome del file da leggere
      * @param start inizio dell'intervallo di interesse
@@ -51,13 +79,12 @@ public class FileManagerTSV {
      * @param pdb pdb interessato
      * @return regione di interesse
      */
-    public ArrayList<String[]> pdbReader(File filePDB, int start, int end, String pdb, String catena) {
+    public ArrayList<String[]> pdbReaderReduce(File filePDB, int start, int end, String pdb, String catena) {
         ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
         String line;
         int cont = 0;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
-            System.out.println("SONO dentro "+filePDB.getName());
             while ((line = TSVReader.readLine()) != null) {
                 if(cont == 0) cont = 1;
                 else {
@@ -69,7 +96,7 @@ public class FileManagerTSV {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong QUAAA");
+            System.out.println("Something went wrong");
         }
         return Data;
     }
@@ -80,6 +107,7 @@ public class FileManagerTSV {
      * @throws IOException se forniamo dati sbagliati
      */
     public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
+        //il file che andremo a dare a ring si chiamerà molecolaPDB.pdb dove al posto PDB ci andrà l'id in questione
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
             for (String[] row : fileData) { //scrivo nel file le righe interessate
                 if (row.length>11) {
@@ -92,9 +120,9 @@ public class FileManagerTSV {
     }
 
     /**
-     * Funzione che si andrà a richiamare quando si analizzerà tutti i pdn di un certo file tsv
-     * @param repeatsDB
-     * @return
+     * Funzione che si andrà a richiamare quando si analizzerà tutti i pdb di un certo file tsv
+     * @param repeatsDB file da cui prendere tutti i pdb
+     * @return lista pdb
      */
     public ArrayList<String> getPDBList(File repeatsDB){
         ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
@@ -112,7 +140,6 @@ public class FileManagerTSV {
                             pdbList.add(lineItems[5]);
                         }
                     }else {
-
                         if(!pdbList.contains(lineItems[2])){
                             pdbList.add(lineItems[2]);
                         }
@@ -121,6 +148,27 @@ public class FileManagerTSV {
             }
         } catch (Exception e) {
             System.out.println("Something went wrong");
+        }
+        return pdbList;
+    }
+
+    /**
+     * Funzione che restituisce la lista di tutti i pdb appartenenti al file json
+     * @param repeatsDBFile file json contenente i pdb e i dati corrispondenti
+     * @return lista di tutti i pdb
+     */
+    public ArrayList<String> getPDBListJSON(File repeatsDBFile){
+        ArrayList<String> pdbList = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader reader = new FileReader(repeatsDBFile);
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            for (Object obj : jsonArray) { //scorro tutti i pdb appartenenti file JSON
+                JSONObject jsonObject = (JSONObject) obj;
+                pdbList.add((String) jsonObject.get("repeatsdb_id"));
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
         }
         return pdbList;
     }

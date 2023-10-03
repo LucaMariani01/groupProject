@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class AasGeneretor {
+
+
     public ArrayList<String[]> readerEdges(File fileTSV,int start){
         ArrayList<String[]>  result= new ArrayList<>();
         String lista_amminoacidi = "";

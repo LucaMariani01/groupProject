@@ -2,10 +2,9 @@ package main.java;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class MainRing {
-    public static void main(String[] args) {
+public class Ring {
+    public static void ringManager(String[] args) {
         String singlePDB=args[0],path = args[1];
         ArrayList<String> comando = new ArrayList<>();
         comando.add("ring");

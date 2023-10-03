@@ -7,14 +7,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainTsvReader {
-    public static void main(String[] args) throws Exception {
+public class TsvReader {
+    public static void reader(String[] args) throws Exception {
         //String singlePDB = "1avyA", fileTsv = "RepeatsDB-table.tsv";
         /*
         String singlePDB = args[0], fileTsv = args[1];

@@ -15,8 +15,8 @@ public class Main {
         String path = s.next();
 
         for(String singlePDB : pdbList) {
-            MainTsvReader.main(new String[]{singlePDB,fileJson});
-            MainRing.main(new String[]{singlePDB,path});
+            TsvReader.reader(new String[]{singlePDB,fileJson});
+            Ring.ringManager(new String[]{singlePDB,path});
             //MainAasGenerator.main(new String[]{singlePDB,}); TODO qui va messo lo start come secondo paramentro
         }
 

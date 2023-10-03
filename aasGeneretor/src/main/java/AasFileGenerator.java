@@ -3,8 +3,9 @@ package main.java;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainAasGenerator {
-    public static void main(String[] args) {
+public class AasFileGenerator {
+
+    public static void AasGenerator(String[] args) {
         String singlePDB = args[0];
         int start = Integer.parseInt(args[1]);
         //Integer[] startEndPdb = new Integer[2];

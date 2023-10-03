@@ -8,7 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tsvReader" />
-    <orderEntry type="module" module-name="assGeneretor" />
+    <orderEntry type="module" module-name="aasGeneretor" />
     <orderEntry type="module" module-name="groupProject" />
     <orderEntry type="module" module-name="ring" />
   </component>

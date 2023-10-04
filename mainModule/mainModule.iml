@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="aasGeneretor" />
     <orderEntry type="module" module-name="groupProject" />
     <orderEntry type="module" module-name="ring" />
+    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
   </component>
 </module>

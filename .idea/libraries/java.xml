@@ -3,29 +3,29 @@
     <CLASSES />
     <JAVADOC />
     <SOURCES>
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-aa-prop/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-aa-prop/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-alignment/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-alignment/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-core/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-core/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-genome/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-genome/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-integrationtest/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-modfinder/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-modfinder/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-ontology/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-ontology/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-protein-comparison-tool/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-protein-disorder/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-protein-disorder/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-structure-gui/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-structure-gui/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-structure/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-structure/src/test/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-survival/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-ws/src/main/java" />
-      <root url="file://$USER_HOME$/Downloads/biojava-master/biojava-master/biojava-ws/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-aa-prop/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-aa-prop/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-alignment/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-alignment/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-core/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-core/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-genome/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-genome/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-integrationtest/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-modfinder/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-modfinder/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-ontology/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-ontology/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-protein-comparison-tool/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-protein-disorder/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-protein-disorder/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-structure-gui/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-structure-gui/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-structure/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-structure/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-survival/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-ws/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../Downloads/biojava-master/biojava-master/biojava-ws/src/test/java" />
     </SOURCES>
   </library>
 </component>

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class AasGeneretor {
 
 
-    public ArrayList<String[]> readerEdges(File fileTSV,int start){
-        ArrayList<String[]>  result= new ArrayList<>();
+    public ArrayList<String> readerEdges(File fileTSV,int start){
+        ArrayList<String>  result= new ArrayList<>();
         String lista_amminoacidi = "";
         String lista_legami="";
         int cont =0;
-
+        System.out.println("path: "+fileTSV);
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
             String line;
             while ((line = TSVReader.readLine()) != null) {
@@ -24,13 +24,16 @@ public class AasGeneretor {
                             + this.parser(lineItems[7].substring(0,3));
                     lista_legami = lista_legami+ "("+((Integer.parseInt(lineItems[1])-start)+1)+","
                             +((Integer.parseInt(lineItems[5])-start)+1)+");" ;
+                    System.out.println("aggiungo un nuovo amminoacido"+lista_amminoacidi);
                 }
             }
         } catch (Exception e) {
             System.out.println("Something went wrong AAS");
         }
-        this.buildAASFile(lista_amminoacidi,lista_legami);
-
+        //this.buildAASFile(lista_amminoacidi,lista_legami);
+        System.out.println("prima del return"+lista_amminoacidi);
+        result.add(lista_amminoacidi);
+        result.add(lista_legami);
         return result;
     }
 
@@ -60,9 +63,11 @@ public class AasGeneretor {
         };
     }
 
-    private void buildAASFile(String lista_amminoacidi, String lista_legami){
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("legami.aas.txt")))) {
+    public void buildAASFile(String lista_amminoacidi, String lista_legami,String path,String pdb){
+        //try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("legami.aas.txt")))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(path+"/aasFile/legami"+pdb+".aas.txt")))) {
             //scrivo nel file le righe interessate
+            System.out.println(lista_amminoacidi);
             writer.println(lista_amminoacidi);
             writer.printf(lista_legami);
         } catch (IOException e) {

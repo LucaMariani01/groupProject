@@ -34,7 +34,9 @@ public class JsonReader {
                 singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //percorso dove metteremo i file pdb generati
 
         //taglio prima il file da dare a ring con il metodo pdbReaderReduce e poi lo passo a createFilePDB che genera il file da dare a Ring
-        fileReader.createFilePDB(fileReader.pdbReaderReduce(new File(pdbPath), start, end, singlePDB, ((String)pdbObject.get("pdb_id"))) , singlePDB);
+        fileReader.createFilePDB(
+                fileReader.pdbReaderReduce(new File(pdbPath), start, end, singlePDB, args[2])
+                , singlePDB);
         return start;
     }
 }

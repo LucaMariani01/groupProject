@@ -8,11 +8,10 @@ public class AasFileGenerator {
     public static void AasGenerator(String[] args) {
         String singlePDB = args[0];
         int start = Integer.parseInt(args[1]);
-        //Integer[] startEndPdb = new Integer[2];
+        String path = args[2];
 
         AasGeneretor aasGeneretor = new AasGeneretor();
-        //ArrayList<String[]> app = aasGeneretor.readerEdges(new File("/home/filippo/Scrivania/molecola"+singlePDB+".pdb_ringEdges"), startEndPdb[0]);
-        ArrayList<String[]> app = aasGeneretor.readerEdges(new File("/home/filippo/Scrivania/molecola"+singlePDB+".pdb_ringEdges"),start);
-
+        ArrayList<String> result = aasGeneretor.readerEdges(new File(args[2]+"/molecola"+singlePDB+".pdb_ringEdges"),start);
+        aasGeneretor.buildAASFile(result.get(0),result.get(1),path,singlePDB);
     }
 }

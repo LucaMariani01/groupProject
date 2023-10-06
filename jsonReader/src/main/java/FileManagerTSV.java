@@ -85,14 +85,17 @@ public class FileManagerTSV {
         int cont = 0;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
+
             while ((line = TSVReader.readLine()) != null) {
                 if(cont == 0) cont = 1;
                 else {
+
                     line = line.replaceAll("\\s+", " "); //sostituisco spazi vuoti con un solo spazio vuoto
                     String[] lineItems = line.split(" "); //splitto stringa in un array
-                    if(lineItems[0].compareTo("ATOM") == 0)
+                    if(lineItems[0].compareTo("ATOM") == 0){
                         if (Integer.parseInt(lineItems[5]) >= start && Integer.parseInt(lineItems[5]) <= end && (lineItems[4].compareTo(catena) == 0))
                             Data.add(lineItems);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -106,16 +109,20 @@ public class FileManagerTSV {
      * @param fileData righe da scrivere nel nuovo file
      * @throws IOException se forniamo dati sbagliati
      */
-    public void createFilePDB(ArrayList<String[]> fileData, String singlePDB)throws IOException {
+    public void createFilePDB(ArrayList<String[]> fileData, String singlePDB){
         //il file che andremo a dare a ring si chiamerà molecolaPDB.pdb dove al posto PDB ci andrà l'id in questione
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
+
             for (String[] row : fileData) { //scrivo nel file le righe interessate
-                if (row.length>11) {
+                System.out.println("ALBERTO :"+row.length);
+                if(row.length == 12) {
                     writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
                             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
                     writer.println();
                 }
             }
+        }catch (Exception e){
+            System.out.println("ERRORE TRISTE :"+e.toString());
         }
     }
 
@@ -165,7 +172,7 @@ public class FileManagerTSV {
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
             for (Object obj : jsonArray) { //scorro tutti i pdb appartenenti file JSON
                 JSONObject jsonObject = (JSONObject) obj;
-                pdbList.add((String) jsonObject.get("repeatsdb_id"));
+                if (!pdbList.contains(jsonObject.get("repeatsdb_id")) )pdbList.add((String) jsonObject.get("repeatsdb_id"));
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

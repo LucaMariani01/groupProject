@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="tsvReader" />
+    <orderEntry type="module" module-name="jsonReader" />
     <orderEntry type="module" module-name="aasGeneretor" />
     <orderEntry type="module" module-name="groupProject" />
     <orderEntry type="module" module-name="ring" />

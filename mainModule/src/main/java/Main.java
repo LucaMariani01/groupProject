@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String[] arg;
+
         String fileJson = "RepeatsDB-table.json";
         FileManagerTSV fileReader = new FileManagerTSV();
         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
-        arg = ArgumentManager.checkArgumentsList(args);
 
 
         /*
@@ -27,7 +26,7 @@ public class Main {
             long endTSV= System.currentTimeMillis();
             long starRing= System.currentTimeMillis();
 
-            Ring.ringManager(new String[]{singlePDB,arg[0]});
+            Ring.ringManager(new String[]{singlePDB,args[0]});
             long endRing= System.currentTimeMillis();
             long startAas= System.currentTimeMillis();
             //MainAasGenerator.main(new String[]{singlePDB,}); TODO qui va messo lo start come secondo paramentro

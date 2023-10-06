@@ -22,14 +22,14 @@ public class Main {
             System.out.println("STO ANALIZZANDO LA NUMERO :["+cont+"]");
             cont++;
             long startTSV= System.currentTimeMillis();
-            TsvReader.reader(new String[]{singlePDB,fileJson});
+            int start = JsonReader.reader(new String[]{singlePDB,fileJson});
             long endTSV= System.currentTimeMillis();
             long starRing= System.currentTimeMillis();
 
             Ring.ringManager(new String[]{singlePDB,args[0]});
             long endRing= System.currentTimeMillis();
             long startAas= System.currentTimeMillis();
-            //MainAasGenerator.main(new String[]{singlePDB,}); TODO qui va messo lo start come secondo paramentro
+            AasFileGenerator.AasGenerator(new String[]{singlePDB,String.valueOf(start)});
             long endAas= System.currentTimeMillis();
 
             TimeController.saveCalculator(endTSV-startTSV,endRing-starRing,endAas-startAas);

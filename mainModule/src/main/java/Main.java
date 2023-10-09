@@ -17,7 +17,7 @@ public class Main {
             cont++;
             long startTSV= System.currentTimeMillis();
             int start = JsonReader.reader(new String[]{singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1))});
-            System.out.println("START"+start);
+            //System.out.println("START"+start);
             long endTSV= System.currentTimeMillis();
             long starRing= System.currentTimeMillis();
 

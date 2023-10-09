@@ -1,5 +1,9 @@
 package main.java;
 
+import org.biojava.nbio.structure.Atom;
+import org.biojava.nbio.structure.AtomIterator;
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.io.PDBFileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -99,11 +103,44 @@ public class FileManagerTSV {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong reduce "+e);
         }
         return Data;
     }
 
+    public  ArrayList<String[]> pdbReaderReduceBioJava(File filePDB,int start, int end, String pdb, String catena) throws IOException {
+        ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+        String line;
+        int cont = 0;
+
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
+
+            while ((line = TSVReader.readLine()) != null) {
+                if(cont == 0) cont = 1;
+                else {
+                    if (line.startsWith("ATOM")) {
+                        String[] lineItems= new String[];
+                        int atomNumber = Integer.parseInt(line.substring(6, 11).trim());
+                        String atomName = line.substring(12, 16).trim();
+                        String residueName = line.substring(17, 20).trim();
+                        char chain = line.charAt(21);
+                        int residueNumber = Integer.parseInt(line.substring(22, 26).trim());
+                        float x = Float.parseFloat(line.substring(30, 38).trim());
+                        float y = Float.parseFloat(line.substring(38, 46).trim());
+                        float z = Float.parseFloat(line.substring(46, 54).trim());
+
+                        // Puoi continuare ad estrarre altre informazioni se necessario
+
+                        System.out.println(atomNumber + " " + atomName + " " + residueName + " " + chain + " " + residueNumber + " " + x + " " + y + " " + z);
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong reduce "+e);
+        }
+        return Data;
+    }
     /**
      * Metodo che crea il nuovo file PDB da dare in input a ring
      * @param fileData righe da scrivere nel nuovo file
@@ -114,12 +151,25 @@ public class FileManagerTSV {
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
 
             for (String[] row : fileData) { //scrivo nel file le righe interessate
-                System.out.println("ALBERTO :"+row.length);
+               // System.out.println("ALBERTO :"+row.length);
                 if(row.length == 12) {
                     writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s%12$-3s",
                             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]);
                     writer.println();
                 }
+
+                if(row.length == 11){
+                    writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s%11$-15s",
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]);
+                    writer.println();
+                }
+
+                if(row.length == 10){
+                    writer.printf("%1$-7s%2$-6s%3$-4s%4$-4s%5$-2s%6$-9s%7$-7s%8$-8s%9$-9s%10$-6s",
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]);
+                    writer.println();
+                }
+
             }
         }catch (Exception e){
             System.out.println("ERRORE TRISTE :"+e.toString());

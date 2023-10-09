@@ -20,7 +20,7 @@ public class FileManagerTSV {
         int cont = 0;
 
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
-            System.out.println("SONO dentro "+filePDB.getName());
+           // System.out.println("SONO dentro "+filePDB.getName());
             while ((line = TSVReader.readLine()) != null) {
                 if(cont == 0) cont = 1;
                 else {
@@ -65,7 +65,7 @@ public class FileManagerTSV {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong start end");
         }
         Integer[] result = new Integer[2];
         result[0] = minStart;

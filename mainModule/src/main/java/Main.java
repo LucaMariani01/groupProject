@@ -1,14 +1,23 @@
 package main.java;
+import org.biojava.nbio.structure.Atom;
+import org.biojava.nbio.structure.Chain;
+import org.biojava.nbio.structure.Group;
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
+import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
+import org.biojava.nbio.structure.io.FileParsingParameters;
+import org.biojava.nbio.structure.io.PDBFileReader;
+
 import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
+        ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         String fileJson = "RepeatsDB-table.json";
         FileManagerTSV fileReader = new FileManagerTSV();
         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
-
 
         System.out.println("NUMERO PDB :["+pdbList.size()+"]");
         int cont = 0;
@@ -29,8 +38,9 @@ public class Main {
 
             TimeController.saveCalculator(endTSV-startTSV,endRing-starRing,endAas-startAas);
         }
-
     }
+
+
 
 
 }

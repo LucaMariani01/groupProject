@@ -1,8 +1,7 @@
 package main.java;
 
-import org.biojava.nbio.structure.Atom;
-import org.biojava.nbio.structure.AtomIterator;
-import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.*;
+import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.PDBFileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -108,38 +107,25 @@ public class FileManagerTSV {
         return Data;
     }
 
-    public  ArrayList<String[]> pdbReaderReduceBioJava(File filePDB,int start, int end, String pdb, String catena) throws IOException {
-        ArrayList<String[]> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena) throws IOException {
+        ArrayList<String> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
         String line;
-        int cont = 0;
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
+            try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
 
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
-
-            while ((line = TSVReader.readLine()) != null) {
-                if(cont == 0) cont = 1;
-                else {
+                while ((line = TSVReader.readLine()) != null) {
                     if (line.startsWith("ATOM")) {
-                        String[] lineItems= new String[];
-                        int atomNumber = Integer.parseInt(line.substring(6, 11).trim());
-                        String atomName = line.substring(12, 16).trim();
-                        String residueName = line.substring(17, 20).trim();
-                        char chain = line.charAt(21);
-                        int residueNumber = Integer.parseInt(line.substring(22, 26).trim());
-                        float x = Float.parseFloat(line.substring(30, 38).trim());
-                        float y = Float.parseFloat(line.substring(38, 46).trim());
-                        float z = Float.parseFloat(line.substring(46, 54).trim());
-
-                        // Puoi continuare ad estrarre altre informazioni se necessario
-
-                        System.out.println(atomNumber + " " + atomName + " " + residueName + " " + chain + " " + residueNumber + " " + x + " " + y + " " + z);
+                        int startTemp = Integer.parseInt(line.substring(22, 26).trim());
+                        String chain = String.valueOf(line.charAt(21));
+                        if (startTemp >= start && startTemp <= end && (chain.compareTo(catena) == 0)) writer.println(line);
                     }
-
                 }
+            } catch (Exception e) {
+                System.out.println("Something went wrong reduce " + e);
             }
-        } catch (Exception e) {
-            System.out.println("Something went wrong reduce "+e);
+        }catch (Exception e) {
+            System.out.println("Something went wrong scrittura " + e);
         }
-        return Data;
     }
     /**
      * Metodo che crea il nuovo file PDB da dare in input a ring

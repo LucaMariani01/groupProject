@@ -21,7 +21,7 @@ public class TimeController {
             writer.write(tempoTsv + "\t" + tempoRing + "\t" + tempoAas + "\n");
             // Chiudi il writer per salvare le modifiche
             writer.close();
-            System.out.println("Dati aggiunti con successo al file TSV.");
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

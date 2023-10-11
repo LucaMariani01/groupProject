@@ -14,7 +14,8 @@ public class JsonReader {
         String singlePDB = args[0], fileJSON = args[1]; //ottengo dagli argomenti pdb e nome file JSON
         FileManagerTSV fileReader = new FileManagerTSV();
         JSONObject pdbObject = fileReader.getPdbObject(fileJSON, singlePDB); //funzione per ottenere oggetto pdb contenente tutte i dati
-        int start = Integer.parseInt((String) pdbObject.get("start")), end = Integer.parseInt((String) pdbObject.get("end"));
+        Integer[] startEnd = fileReader.getStartEndPdbJson(fileJSON,singlePDB);
+        int start = startEnd[0], end = startEnd[1];
 
         PDBFileReader pdbReader = new PDBFileReader();
         pdbReader.setPath("path_to_pdb_cache_directory"); //directory dove andremo a mettere i file pdb
@@ -33,10 +34,6 @@ public class JsonReader {
         pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/"+
                 singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //percorso dove metteremo i file pdb generati
 
-        //taglio prima il file da dare a ring con il metodo pdbReaderReduce e poi lo passo a createFilePDB che genera il file da dare a Ring
-        /*fileReader.createFilePDB(
-                fileReader.pdbReaderReduce(new File(pdbPath), start, end, singlePDB, args[2])
-                , singlePDB);*/
         fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, args[2]);
         return start;
     }

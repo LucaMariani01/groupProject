@@ -1,8 +1,6 @@
 package main.java;
 
-import org.biojava.nbio.structure.*;
-import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.PDBFileReader;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,6 +43,43 @@ public class FileManagerTSV {
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }
+        Integer[] result = new Integer[2];
+        result[0] = minStart;
+        result[1] = maxEnd;
+        return (result);
+    }
+
+
+    /**
+     * Funzione per ottenere start end di un pdb passato
+     * @param fileJSON file TSV da analizzare
+     * @param pdb pdb da cui vogliamo ottenere start e end
+     * @return array contenente in posizione 0 lo start, e in 1 end del pdb passato tra i parametri
+     */
+    public Integer[] getStartEndPdbJson(String fileJSON,String pdb) {
+        int minStart=-1, maxEnd=-1;
+        boolean first= true;
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader reader = new FileReader(fileJSON);
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            for (Object obj : jsonArray) { //scorro tutti i pdb appartenenti file JSON
+                JSONObject jsonObject = (JSONObject) obj;
+                if(((String) jsonObject.get("repeatsdb_id")).compareTo(pdb) == 0) { //ottengo start e end del pdb passato
+                    if (first ){
+                        minStart = Integer.parseInt((String) jsonObject.get("start"));
+                        maxEnd = Integer.parseInt((String) jsonObject.get("end"));
+                        first=false;
+                    }else {
+                        if (Integer.parseInt((String) jsonObject.get("start")) < minStart) minStart = Integer.parseInt((String) jsonObject.get("start"));
+                        if (Integer.parseInt((String) jsonObject.get("end")) > maxEnd )  maxEnd = Integer.parseInt((String) jsonObject.get("end"));
+                    }
+                }
+            }
+        } catch (IOException | ParseException e) {
+            System.out.println("Something went wrong calcolo max end");
+        }
+
         Integer[] result = new Integer[2];
         result[0] = minStart;
         result[1] = maxEnd;
@@ -107,19 +142,19 @@ public class FileManagerTSV {
         return Data;
     }
 
-    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena) throws IOException {
-        ArrayList<String> Data = new ArrayList<>(); //Arraylist delle righe lette dal file tsv
+    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena) {
         String line;
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) {
-            try (BufferedReader TSVReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
+            try (BufferedReader tsvReader = new BufferedReader(new FileReader(filePDB))) { // leggo e registro le righe del file pdb
 
-                while ((line = TSVReader.readLine()) != null) {
+                while ((line = tsvReader.readLine()) != null) {
                     if (line.startsWith("ATOM")) {
                         int startTemp = Integer.parseInt(line.substring(22, 26).trim());
                         String chain = String.valueOf(line.charAt(21));
                         if (startTemp >= start && startTemp <= end && (chain.compareTo(catena) == 0)) writer.println(line);
                     }
                 }
+                writer.close();
             } catch (Exception e) {
                 System.out.println("Something went wrong reduce " + e);
             }

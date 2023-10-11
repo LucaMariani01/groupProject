@@ -12,12 +12,13 @@ public class Ring {
         comando.add("molecola"+singlePDB+".pdb");
         comando.add("--out_dir");
         comando.add(path);
+
         ProcessBuilder processBuilder = new ProcessBuilder(comando);
         try {
             Process processo1 = processBuilder.start();
             processo1.waitFor(); // Attendere il completamento del processo (se necessario)
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("RING "+e);
         }
     }
 }

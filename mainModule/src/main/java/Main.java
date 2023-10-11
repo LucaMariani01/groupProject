@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
-        String fileJson = "RepeatsDB-table.json";
+        String fileJson = "RepeatsDB-table (2).json";
         FileManagerTSV fileReader = new FileManagerTSV();
         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
 
@@ -26,7 +26,7 @@ public class Main {
             cont++;
             long startTSV= System.currentTimeMillis();
             int start = JsonReader.reader(new String[]{singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1))});
-            //System.out.println("START"+start);
+            System.out.println("START"+start);
             long endTSV= System.currentTimeMillis();
             long starRing= System.currentTimeMillis();
 
@@ -39,8 +39,5 @@ public class Main {
             TimeController.saveCalculator(endTSV-startTSV,endRing-starRing,endAas-startAas);
         }
     }
-
-
-
 
 }

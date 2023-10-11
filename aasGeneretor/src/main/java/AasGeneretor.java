@@ -13,7 +13,7 @@ public class AasGeneretor {
         String lista_amminoacidi = "";
         String lista_legami="";
         int cont =0;
-      //  System.out.println("path: "+fileTSV);
+      //  System.out.println("FILE: "+fileTSV);
         try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileTSV))) {
             String line;
             while ((line = TSVReader.readLine()) != null) {
@@ -28,10 +28,9 @@ public class AasGeneretor {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong AAS");
+            System.out.println("Something went wrong AAS errore :"+e);
         }
-        //this.buildAASFile(lista_amminoacidi,lista_legami);
-        //System.out.println("prima del return"+lista_amminoacidi);
+
         result.add(lista_amminoacidi);
         result.add(lista_legami);
         return result;

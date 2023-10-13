@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+        //TODO IMPLEMENTARE CLASSE PER GESTIRE COMANDI
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         String fileJson = "RepeatsDB-table (2).json";
         FileManagerTSV fileReader = new FileManagerTSV();
@@ -30,10 +31,10 @@ public class Main {
             long endTSV= System.currentTimeMillis();
             long starRing= System.currentTimeMillis();
 
-            Ring.ringManager(new String[]{singlePDB,args[0]});
+            Ring.ringManager(new String[]{singlePDB,args[0],args[1]}); //todo args[1] andrà modificato, è li solo per testing
             long endRing= System.currentTimeMillis();
             long startAas= System.currentTimeMillis();
-            AasFileGenerator.AasGenerator(new String[]{singlePDB,String.valueOf(start),args[0]});
+            AasFileGenerator.AasGenerator(new String[]{singlePDB,String.valueOf(start),args[0],args[1]});//todo args[1] andrà modificato,è li solo per testing
             long endAas= System.currentTimeMillis();
 
             TimeController.saveCalculator(endTSV-startTSV,endRing-starRing,endAas-startAas);

@@ -1,19 +1,51 @@
 package main.java;
-import org.biojava.nbio.structure.Atom;
-import org.biojava.nbio.structure.Chain;
-import org.biojava.nbio.structure.Group;
-import org.biojava.nbio.structure.Structure;
-import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
-import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
-import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.PDBFileReader;
-
-import java.io.File;
-import java.util.ArrayList;
+import org.apache.commons.cli.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        Options options = new Options();
+        Option helpOption = new Option("h", "help", false, "Show the help");
+        options.addOption(helpOption);
 
+        Option inputOption = new Option("i","input",true,"Insert the JSON file path to fetch PDB information.");
+        inputOption.setRequired(true);
+        options.addOption(inputOption);
+
+        Option outputOption = new Option("o","output",true,"Insert the path where RING and AAS files will be saved.");
+        inputOption.setRequired(true);
+        options.addOption(outputOption);
+
+
+        Option bondOption = new Option("b","bond",true,"Insert the bond list that you want to analyze. EX: HBOND, IONIC, VDW.");
+        options.addOption(bondOption);
+
+        // Crea il parser delle opzioni
+        CommandLineParser parser = new DefaultParser();
+
+        try {
+            // Analizza gli argomenti della riga di comando
+            CommandLine cmd = null;
+
+            cmd = parser.parse(options, args);
+
+            // Gestisci le opzioni
+            if (cmd.hasOption("h")) {
+                // Mostra l'aiuto
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp("CommandLineExample", options);
+            } else {
+                // Leggi l'opzione del file se presente
+                if (cmd.hasOption("f")) {
+                    String filePath = cmd.getOptionValue("f");
+                    System.out.println("Percorso del file: " + filePath);
+                } else {
+                    System.out.println("Opzione non riconosciuta. Usa -h per l'aiuto.");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Errore durante l'analisi degli argomenti: " + e.getMessage());
+        }
+        /*
         //TODO IMPLEMENTARE CLASSE PER GESTIRE COMANDI
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         String fileJson = "RepeatsDB-table (2).json";
@@ -39,6 +71,7 @@ public class Main {
 
             TimeController.saveCalculator(endTSV-startTSV,endRing-starRing,endAas-startAas);
         }
-    }
 
+         */
+    }
 }

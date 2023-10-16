@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class FileManagerTSV {
+public class FileJsonManager {
 
     /**
      * Funzione per ottenere start end di un pdb passato

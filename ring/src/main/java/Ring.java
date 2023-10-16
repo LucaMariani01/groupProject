@@ -5,17 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Ring {
-    public static void ringManager(String[] args) {
-        String singlePDB=args[0],path = args[1];
-        String[] legami = new String[args.length-2];
-
-        for (int i=0;i <args.length-2;i++) legami[i] = args[i + 2];
+    public static void ringManager(String singlePDB, String outputPath, ArrayList<String> bondList) {
         ArrayList<String> comando = new ArrayList<>();
         comando.add("ring");
         comando.add("-i");
         comando.add("molecola"+singlePDB+".pdb");
         comando.add("--out_dir");
-        comando.add(path);
+        comando.add(outputPath);
 
         ProcessBuilder processBuilder = new ProcessBuilder(comando);
         try {
@@ -25,13 +21,14 @@ public class Ring {
             System.out.println("RING "+e);
         }
 
-        for (String legame : legami) EdgesSelector.selector(legame,new File(path+"/molecola"+singlePDB+".pdb_ringEdges"),path);
-        if (legami.length>0){
-            File myFile = new File(path+"/molecola"+singlePDB+".pdb_ringEdges");
-           myFile.delete();
-        }
-        File myFile = new File(path+"/molecola"+singlePDB+".pdb_ringNodes");
-        myFile.delete();
+        //for (String legame : bondList) EdgesSelector.selector(legame,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
+        EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
 
+        if (!bondList.isEmpty()){
+            File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges");
+            myFile.delete();
+        }
+        File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringNodes");
+        myFile.delete();
     }
 }

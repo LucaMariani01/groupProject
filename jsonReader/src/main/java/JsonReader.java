@@ -12,7 +12,7 @@ public class JsonReader {
     public static int reader(String[] args) throws Exception {
 
         String singlePDB = args[0], fileJSON = args[1]; //ottengo dagli argomenti pdb e nome file JSON
-        FileManagerTSV fileReader = new FileManagerTSV();
+        FileJsonManager fileReader = new FileJsonManager();
         JSONObject pdbObject = fileReader.getPdbObject(fileJSON, singlePDB); //funzione per ottenere oggetto pdb contenente tutte i dati
         Integer[] startEnd = fileReader.getStartEndPdbJson(fileJSON,singlePDB);
         int start = startEnd[0], end = startEnd[1];

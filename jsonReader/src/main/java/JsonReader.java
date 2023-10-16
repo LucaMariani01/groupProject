@@ -9,32 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonReader {
-    public static int reader(String[] args) throws Exception {
-
-        String singlePDB = args[0], fileJSON = args[1]; //ottengo dagli argomenti pdb e nome file JSON
+    public static int reader(String singlePDB, String fileJson,String catena) throws Exception {
         FileJsonManager fileReader = new FileJsonManager();
-        JSONObject pdbObject = fileReader.getPdbObject(fileJSON, singlePDB); //funzione per ottenere oggetto pdb contenente tutte i dati
-        Integer[] startEnd = fileReader.getStartEndPdbJson(fileJSON,singlePDB);
+        JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
+        Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,singlePDB);
         int start = startEnd[0], end = startEnd[1];
 
         PDBFileReader pdbReader = new PDBFileReader();
-        pdbReader.setPath("path_to_pdb_cache_directory"); //directory dove andremo a mettere i file pdb
+        pdbReader.setPath("path_to_pdb_cache_directory"); //setting path where pdb generated with bioJava will be stored
         Structure structure = pdbReader.getStructureById((String) pdbObject.get("pdb_id"));
-        structure.toPDB(); //genero con BioJava i file pdb da mettere nella directory prima dichiarata
+        structure.toPDB(); //generating pdb files
 
         String pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/"+
-                singlePDB.substring(1, 3) + "/pdb" + (pdbObject.get("pdb_id")) + ".ent.gz";
+                singlePDB.substring(1, 3) + "/pdb" + (pdbObject.get("pdb_id")) + ".ent.gz"; //is the pdb file complete path
 
         List<String> comando = new ArrayList<>();
-        comando.add("gunzip");
+        comando.add("gunzip"); //unzipping pdb files
         comando.add(pdbPath);
         ProcessBuilder processBuilder = new ProcessBuilder(comando);
         Process processo = processBuilder.start();
         processo.waitFor();
         pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/"+
-                singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //percorso dove metteremo i file pdb generati
+                singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //path where we are going to unzip pdb files
 
-        fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, args[2]);
+        fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, catena); //method used to cut pdb file
         return start;
     }
 }

@@ -1,33 +1,24 @@
 package main.java;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class TimeController {
 
     /**
-     * inserisce sul i tempi per calcolare il tempo di tsv, Ring e la generazione del Aas
-     * per ogni pdb
-     * @param tempoTsv tempo per il tsv
-     * @param tempoRing tempo per Ring
-     * @param tempoAas tempo per Aas
+     * This method is used to write in a tsv file all the time in ms, that each method takes:
+     * parsing Json, using ring and calculating aas for each pdb
+     * @param jsonTime is the time spent on JsonReader methods
+     * @param ringTime is the time spent on Ring methods
+     * @param aasTime is the time spent on AasFileGenerator methods
      */
-    public static void saveCalculator(long tempoTsv, long tempoRing, long tempoAas){
+    public static void saveCalculator(long jsonTime, long ringTime, long aasTime){
         String fileName = "tempi.tsv";
         try {
-            // Crea un oggetto FileWriter in modalità "append" passando true come secondo parametro
             FileWriter writer = new FileWriter(fileName, true);
-            // Scrivi la riga nel formato TSV
-            writer.write(tempoTsv + "\t" + tempoRing + "\t" + tempoAas + "\n");
-            // Chiudi il writer per salvare le modifiche
+            writer.write(jsonTime + "\t" + ringTime + "\t" + aasTime + "\n");
             writer.close();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
-
-
-

@@ -58,7 +58,7 @@ public class Main {
                             long startAasMs = System.currentTimeMillis();
                             AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList);
                             long endAasMs = System.currentTimeMillis();
-                            TimeController.saveCalculator(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs );
+                            TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs );
                         }
                     }
                 } else System.out.println("ERROR: use -h to view the help.");

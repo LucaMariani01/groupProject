@@ -11,7 +11,7 @@ public class TimeController {
      * @param ringTime is the time spent on Ring methods
      * @param aasTime is the time spent on AasFileGenerator methods
      */
-    public static void saveCalculator(long jsonTime, long ringTime, long aasTime){
+    public static void executionTimeManager(long jsonTime, long ringTime, long aasTime){
         String fileName = "tempi.tsv";
         try {
             FileWriter writer = new FileWriter(fileName, true);

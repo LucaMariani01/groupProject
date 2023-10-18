@@ -21,10 +21,10 @@ public class Ring {
             System.out.println("RING "+e);
         }
 
-        //for (String legame : bondList) EdgesSelector.selector(legame,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
-        EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
 
+        //for (String legame : bondList) EdgesSelector.selector(legame,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
         if (!bondList.isEmpty()){
+            EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
             File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges");
             myFile.delete();
         }

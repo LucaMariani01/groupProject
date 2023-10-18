@@ -44,6 +44,8 @@ public class EdgesSelector {
      */
     public static void selector(ArrayList<String> bondList, File fileRing,String path){
         boolean first= true;
+
+
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(path+"/"+fileRing.getName()+"_selBonds")))) {
             try (BufferedReader TSVReader = new BufferedReader(new FileReader(fileRing))) {
                 String line;

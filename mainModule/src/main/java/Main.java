@@ -40,7 +40,9 @@ public class Main {
                         FileJsonManager fileReader = new FileJsonManager();
                         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
 
-                        System.out.println("PDB NUMBER: "+pdbList.size());
+                        File directory = new File(outputPath+"/aas");
+                        directory.mkdir();
+
                         int cont = 0;
                         for(String singlePDB : pdbList) {
                             System.out.println("ANALYZING ["+cont+"]: "+singlePDB);

@@ -20,8 +20,6 @@ public class Ring {
         } catch (Exception e) {
             System.out.println("RING "+e);
         }
-
-
         //for (String legame : bondList) EdgesSelector.selector(legame,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
         if (!bondList.isEmpty()){
             EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);

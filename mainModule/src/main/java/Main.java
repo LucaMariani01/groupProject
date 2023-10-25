@@ -1,14 +1,19 @@
 package main.java;
 import org.apache.commons.cli.*;
+import org.biojava.nbio.structure.*;
 import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
 import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         Options options = new Options();
         Option helpOption = new Option("h", "help", false, "Show help");
@@ -35,6 +40,15 @@ public class Main {
                     String outputPath = cmd.getOptionValue("o");
                     ArrayList<String> bondList = new ArrayList<>();
                     if(!(fileJson.isEmpty() && outputPath.isEmpty())){
+                        File fileCsv = new File("labelProva.csv");
+                        fileCsv.createNewFile();
+                        try {
+                            FileWriter writer = new FileWriter(fileCsv, true);
+                            writer.write("Id" + ";" +  "Organism" + ";" + "Taxon" + "\n");
+                            writer.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         if (cmd.hasOption("b")) bondList = new ArrayList<>( Arrays.asList(cmd.getOptionValues("b") ));
 
                         FileJsonManager fileReader = new FileJsonManager();
@@ -49,7 +63,7 @@ public class Main {
                             cont++;
                             long startJsonMs= System.currentTimeMillis();
                             //int start = JsonReader.reader(new String[]{singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1))});
-                            int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)));
+                            int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsv);
                             System.out.println("START: "+start);
                             long endJsonMs = System.currentTimeMillis();
 

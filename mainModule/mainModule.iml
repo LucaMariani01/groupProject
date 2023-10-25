@@ -14,5 +14,6 @@
     <orderEntry type="library" name="Maven: org.biojava:biojava-structure:7.0.2" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jmol:jmol:14.31.10" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.4" level="project" />
+    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
   </component>
 </module>

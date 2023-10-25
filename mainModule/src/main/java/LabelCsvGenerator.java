@@ -1,8 +1,7 @@
 package main.java;
 
-import org.biojava.nbio.structure.DBRef;
-import org.biojava.nbio.structure.Structure;
-import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.*;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,30 +9,34 @@ import java.io.IOException;
 
 public class LabelCsvGenerator {
 
-    public static void generetor(String pdbId, String classification, File fileName){
 
+
+    public static  void generator(JSONObject pdbObject, File fileName){
+
+        String pdbId = pdbObject.get("pdb_id").toString();
+        String classification =pdbObject.get("class_topology_fold_clan").toString();
         Structure structure = null;
         try {
             structure = StructureIO.getStructure(pdbId);
-        }catch (Exception e){}
-        // Print classification information
-        System.out.println("Title: " + structure.getPDBHeader().getTitle());
+        } catch (IOException | StructureException e) {
+            throw new RuntimeException(e);
+        }
 
-        // Link to UNIPROT
-        structure.getChains().forEach(chain -> {
-            for (DBRef dbRef : chain.getStructure().getDBRefs()) {
+        // Cerca la catena specifica all'interno della struttura.
 
-                if (dbRef.getDatabase().equals("UNP")) {
-                    //System.out.println("UNIPROT ID for chain " + chain.getId() + ": " + dbRef.getDbAccession());
-                    try {
-                        FileWriter writer = new FileWriter(fileName, true);
-                        writer.write(pdbId+chain.getId() + "\t" +  dbRef.getDbAccession() + "\t" + classification + "\n");
-                        writer.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        });
+        Chain targetChain = structure.getChain(pdbObject.get("pdb_chain").toString().toUpperCase());
+        String app = "";
+        // Cerca il riferimento al database UniProt all'interno della catena.
+        if (targetChain != null) {
+            for (DBRef dbRef : targetChain.getStructure().getDBRefs())
+                if (dbRef.getDatabase().equalsIgnoreCase("UNP")) app = dbRef.getDbAccession();
+        } else System.out.println("ID NULL : "+pdbId);
+        try {
+            FileWriter writer = new FileWriter(fileName, true);
+            writer.write(pdbId + pdbObject.get("pdb_chain").toString()+ ";" + app + ";" + classification + "\n");
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

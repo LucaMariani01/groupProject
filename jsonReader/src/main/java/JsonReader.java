@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonReader {
-    public static int reader(String singlePDB, String fileJson,String catena) throws Exception {
+    public static int reader(String singlePDB, String fileJson,String catena,File fileName) throws Exception {
         FileJsonManager fileReader = new FileJsonManager();
         JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
+
+
+        LabelCsvGenerator.generetor(singlePDB,pdbObject.get("class_topology_fold_clan").toString(),fileName);
         Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,singlePDB);
         int start = startEnd[0], end = startEnd[1];
 

@@ -83,7 +83,7 @@ public class AasParser {
      * @param pdb is the pdb name
      */
     public void buildAASFile(String aminoAcidList,String bondList,String path,String pdb){
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(path+"/aas/legami"+pdb+".aas")))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(path+"/aas/"+pdb)))) {
             writer.println(aminoAcidList);
             writer.printf(bondList);
         } catch (IOException e) { throw new RuntimeException(e); }

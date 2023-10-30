@@ -1,6 +1,6 @@
 package main.java;
+
 import org.apache.commons.cli.*;
-import org.biojava.nbio.structure.*;
 import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
 import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
 
@@ -9,24 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
-        Options options = new Options();
-        Option helpOption = new Option("h", "help", false, "Show help");
-        options.addOption(helpOption);
-
-        Option inputOption = new Option("i","input",true,"Insert the JSON file path to fetch PDB information.");
-        options.addOption(inputOption);
-
-        Option outputOption = new Option("o","output",true,"Insert the path where RING and AAS files will be saved.");
-        options.addOption(outputOption);
-
-        Option bondOption = new Option("b","bond",true,"Insert the bond that you want to analyze. EX: HBOND, IONIC, VDW,...");
-        options.addOption(bondOption);
+        Options options = getOptions();
 
         CommandLineParser parser = new DefaultParser();
         try {
@@ -41,7 +29,7 @@ public class Main {
                     ArrayList<String> bondList = new ArrayList<>();
                     if(!(fileJson.isEmpty() && outputPath.isEmpty())){
                         File fileCsv = new File("labelProva.csv");
-                        fileCsv.createNewFile();
+                        if (!fileCsv.createNewFile()) System.out.println("FILE NON CREATO ");
                         try {
                             FileWriter writer = new FileWriter(fileCsv, true);
                             writer.write("Id" + ";" +  "Organism" + ";" + "Taxon" + "\n");
@@ -55,7 +43,7 @@ public class Main {
                         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
 
                         File directory = new File(outputPath+"/aas");
-                        directory.mkdir();
+                        if(!directory.mkdir()) System.out.println("CARTELLA NON CREATA ");
 
                         int cont = 0;
                         for(String singlePDB : pdbList) {
@@ -82,5 +70,21 @@ public class Main {
         } catch (Exception e) {
             System.err.println("ERROR while parsing options: "+e.getMessage());
         }
+    }
+
+    private static Options getOptions() {
+        Options options = new Options();
+        Option helpOption = new Option("h", "help", false, "Show help");
+        options.addOption(helpOption);
+
+        Option inputOption = new Option("i","input",true,"Insert the JSON file path to fetch PDB information.");
+        options.addOption(inputOption);
+
+        Option outputOption = new Option("o","output",true,"Insert the path where RING and AAS files will be saved.");
+        options.addOption(outputOption);
+
+        Option bondOption = new Option("b","bond",true,"Insert the bond that you want to analyze. EX: HBOND, IONIC, VDW,...");
+        options.addOption(bondOption);
+        return options;
     }
 }

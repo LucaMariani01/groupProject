@@ -15,7 +15,7 @@ public class LabelCsvGenerator {
 
         String pdbId = pdbObject.get("pdb_id").toString();
         String classification =pdbObject.get("class_topology_fold_clan").toString();
-        Structure structure = null;
+        Structure structure;
         try {
             structure = StructureIO.getStructure(pdbId);
         } catch (IOException | StructureException e) {

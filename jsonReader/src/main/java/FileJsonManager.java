@@ -63,7 +63,7 @@ public class FileJsonManager {
                     return jsonObject;
                 }
             }
-        } catch (IOException | ParseException e) { e.printStackTrace(); }
+        } catch (IOException | ParseException e) { System.out.println("File Json ex"); }
         return null;
     }
     /**
@@ -106,7 +106,7 @@ public class FileJsonManager {
                 JSONObject jsonObject = (JSONObject) obj;
                 if (!pdbList.contains(jsonObject.get("repeatsdb_id")))pdbList.add((String) jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
             }
-        } catch (IOException | ParseException e) { e.printStackTrace(); }
+        } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbList;
     }
 }

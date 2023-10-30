@@ -14,7 +14,10 @@ public class AasParser {
      */
     public ArrayList<String> readerEdges(File pdbEdgesFile,int start){
         ArrayList<String>  result = new ArrayList<>();
-        String aminoAcidList = "",bondList="",lastAminoAcidList="" , lastBond="";
+        StringBuilder aminoAcidList = new StringBuilder();
+        StringBuilder bondList= new StringBuilder();
+        String lastAminoAcidList="";
+        String lastBond="";
         int cont =0;
         try (BufferedReader pdbEdgesReader = new BufferedReader(new FileReader(pdbEdgesFile))) {
             String line;
@@ -26,10 +29,8 @@ public class AasParser {
                             + this.parser(lineItems[7].substring(0, 3)))!=0 && lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
                             + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");")!=0) {
 
-                        aminoAcidList = aminoAcidList + this.parser(lineItems[3].substring(0, 3))
-                                + this.parser(lineItems[7].substring(0, 3));
-                        bondList = bondList + "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
-                                + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";
+                        aminoAcidList.append(this.parser(lineItems[3].substring(0, 3))).append(this.parser(lineItems[7].substring(0, 3)));
+                        bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
                         lastAminoAcidList=this.parser(lineItems[3].substring(0, 3))
                                 + this.parser(lineItems[7].substring(0, 3));
                         lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
@@ -38,8 +39,8 @@ public class AasParser {
                 }
             }
         } catch (Exception e) { System.out.println("Something went wrong during aas generation: "+e); }
-        result.add(aminoAcidList);
-        result.add(bondList);
+        result.add(aminoAcidList.toString());
+        result.add(bondList.toString());
         return result;
     }
 

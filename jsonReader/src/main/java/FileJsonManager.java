@@ -104,7 +104,7 @@ public class FileJsonManager {
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
-                if (!pdbList.contains(jsonObject.get("repeatsdb_id")))pdbList.add((String) jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
+                if (!pdbList.contains(jsonObject.get("repeatsdb_id").toString()))pdbList.add((String) jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
             }
         } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbList;

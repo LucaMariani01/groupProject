@@ -48,11 +48,16 @@ public class Main {
                         File directory = new File(outputPath+"/aas");
                         if(!directory.mkdir()) System.out.println("FOLDER NOT CREATED");
 
-
+                        File timesDirectory = new File("execTimes/execTimes.csv");
                         Path fileTimesPath = Paths.get("execTimes","execTimes.csv");
-                        if(Files.exists(fileTimesPath)) Files.delete(Paths.get("execTimes/execTimes.csv"));
-                        File directoryOfTimes = new File("/execTimes");
-                        if(!directoryOfTimes.mkdir()) System.out.println("TIMES FOLDER NOT CREATED");
+
+                        if(Files.exists(fileTimesPath)){
+                            Files.delete(Paths.get("execTimes/execTimes.csv"));
+                            System.out.println("ho cancellato la dir");
+                        }else{
+                            timesDirectory.mkdir();
+                        }
+//                        if(isNull(timesDirectory)) return;
 
                         for(String singlePDB : pdbList) {
                             long startJsonMs= System.currentTimeMillis();
@@ -66,7 +71,7 @@ public class Main {
                             long startAasMs = System.currentTimeMillis();
                             AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList);
                             long endAasMs = System.currentTimeMillis();
-                            TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,fileTimesPath.toString() );
+                            TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
                         }
                     }
                 } else System.out.println("ERROR: use -h to view the help.");

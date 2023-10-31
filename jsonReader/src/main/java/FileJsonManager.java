@@ -63,9 +63,10 @@ public class FileJsonManager {
                     return jsonObject;
                 }
             }
-        } catch (IOException | ParseException e) { System.out.println("File Json ex"); }
+        } catch (IOException | ParseException e) { System.out.println("JSON File exception"); }
         return null;
     }
+
     /**
      * Method used to cut pdb file from start to end
      * @param filePDB is the pdb file we are going to cut

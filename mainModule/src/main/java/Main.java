@@ -7,6 +7,9 @@ import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,8 +31,8 @@ public class Main {
                     String outputPath = cmd.getOptionValue("o");
                     ArrayList<String> bondList = new ArrayList<>();
                     if(!(fileJson.isEmpty() && outputPath.isEmpty())){
-                        File fileCsv = new File("labelProva.csv");
-                        if (!fileCsv.createNewFile()) System.out.println("FILE NON CREATO ");
+                        File fileCsv = new File("labels.csv");
+                        if (!fileCsv.createNewFile()) System.out.println("FILE NOT CREATED ");
                         try {
                             FileWriter writer = new FileWriter(fileCsv, true);
                             writer.write("Id" + ";" +  "Organism" + ";" + "Taxon" + "\n");
@@ -43,16 +46,17 @@ public class Main {
                         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
 
                         File directory = new File(outputPath+"/aas");
-                        if(!directory.mkdir()) System.out.println("CARTELLA NON CREATA ");
+                        if(!directory.mkdir()) System.out.println("FOLDER NOT CREATED");
 
-                        int cont = 0;
+
+                        Path fileTimesPath = Paths.get("execTimes","execTimes.csv");
+                        if(Files.exists(fileTimesPath)) Files.delete(Paths.get("execTimes/execTimes.csv"));
+                        File directoryOfTimes = new File("/execTimes");
+                        if(!directoryOfTimes.mkdir()) System.out.println("TIMES FOLDER NOT CREATED");
+
                         for(String singlePDB : pdbList) {
-                            System.out.println("ANALYZING ["+cont+"]: "+singlePDB);
-                            cont++;
                             long startJsonMs= System.currentTimeMillis();
-                            //int start = JsonReader.reader(new String[]{singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1))});
                             int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsv);
-                            System.out.println("START: "+start);
                             long endJsonMs = System.currentTimeMillis();
 
                             long starRingMs= System.currentTimeMillis();
@@ -62,7 +66,7 @@ public class Main {
                             long startAasMs = System.currentTimeMillis();
                             AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList);
                             long endAasMs = System.currentTimeMillis();
-                            TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs );
+                            TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,fileTimesPath.toString() );
                         }
                     }
                 } else System.out.println("ERROR: use -h to view the help.");

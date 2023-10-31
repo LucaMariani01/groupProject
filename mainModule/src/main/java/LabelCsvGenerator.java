@@ -8,9 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class LabelCsvGenerator {
-
-
-
     public static  void generator(JSONObject pdbObject, File fileName){
 
         String pdbId = pdbObject.get("pdb_id").toString();
@@ -22,11 +19,9 @@ public class LabelCsvGenerator {
             throw new RuntimeException(e);
         }
 
-        // Cerca la catena specifica all'interno della struttura.
-
         Chain targetChain = structure.getChain(pdbObject.get("pdb_chain").toString().toUpperCase());
         String app = "";
-        // Cerca il riferimento al database UniProt all'interno della catena.
+
         if (targetChain != null) {
             for (DBRef dbRef : targetChain.getStructure().getDBRefs())
                 if (dbRef.getDatabase().equalsIgnoreCase("UNP")) app = dbRef.getDbAccession();
@@ -35,8 +30,6 @@ public class LabelCsvGenerator {
             FileWriter writer = new FileWriter(fileName, true);
             writer.write(pdbId + pdbObject.get("pdb_chain").toString()+ ";" + app + ";" + classification + "\n");
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (IOException e) { throw new RuntimeException(e); }
     }
 }

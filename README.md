@@ -7,9 +7,17 @@ The focus of this group project is, given a list of PDBs contained in a JSON fil
 
 ## RingPdbAnalyzer.jar usage examples
 
-* `> java -jar RingPdbAnalyzer.jar -i RepeatsDB-table.json -o Users/name/Desktop`
+* `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory`
 
-Produces a list of AAS file contained in the Users/name/Desktop directory, corresponding to the PDBs contained in the RepeatsDB-table.json file.
+Produces a list of AAS file contained in the path/to/outputAasDirectory directory, corresponding to the PDBs contained in the inputJsonFile.json file.
+
+* `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory -b arcType`
+
+Produces a list of AAS file contained in the path/to/outputAasDirectory directory, corresponding to the PDBs contained in the inputJsonFile.json file, but using this command, only the selected types of arc will be analyzed.
+
+* `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory -t path/to/executionTimeDirectory`
+
+Produces a list of AAS file contained in the path/to/outputAasDirectory directory, corresponding to the PDBs contained in the inputJsonFile.json file, but using this command, a csv file containing the execution times for each operation per pdb will be created in the path/to/executionTimeDirectory directory.
 
 ## Accepted Input file formats 
 * PDB JSON format, download link: <https://www.rcsb.org/>
@@ -18,3 +26,17 @@ Produces a list of AAS file contained in the Users/name/Desktop directory, corre
 Arc Annotated Sequence (AAS) file, inclueds sequence and bond list, expressed in the format `(i_1,j_1);(i_2,j_2); ... ;(i_m,j_m)` where each index 
 `i_k, j_k` is withinthe range `[1,n]` where `n` is the length
 of the primary sequence and `i_k < j_k`  for all `k`.
+
+## Requirements
+* *Java 8* or higher
+* *RING software* added to the PATH evironment variable
+
+## Credits
+
+RingPdbAnalyzer group project is developed and tested by:
+
+- Prof. Luca Tesei, Supervisor, University of Camerino
+- Prof. Michela Quadrini, Supervisor, University of Camerino
+- Filippo Reucci, Student, University of Camerino
+- Diego Pennesi, Student, University of Camerino
+- Luca Mariani, Student, University of Camerino

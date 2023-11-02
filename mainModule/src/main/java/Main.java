@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         Options options = getOptions();
 
@@ -31,15 +30,13 @@ public class Main {
                     String outputPath = cmd.getOptionValue("o");
                     ArrayList<String> bondList = new ArrayList<>();
                     if(!(fileJson.isEmpty() && outputPath.isEmpty())){
-                        File fileCsv = new File("labels.csv");
-                        if (!fileCsv.createNewFile()) System.out.println("FILE NOT CREATED ");
+                        File fileCsvLabel = new File(outputPath+"/labels.csv");
+                        if (!fileCsvLabel.createNewFile()) System.out.println("FILE NOT CREATED ");
                         try {
-                            FileWriter writer = new FileWriter(fileCsv, true);
+                            FileWriter writer = new FileWriter(fileCsvLabel, true);
                             writer.write("Id" + ";" +  "Organism" + ";" + "Taxon" + "\n");
                             writer.close();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                        } catch (IOException e) {throw new RuntimeException(e);}
                         if (cmd.hasOption("b")) bondList = new ArrayList<>( Arrays.asList(cmd.getOptionValues("b") ));
 
                         FileJsonManager fileReader = new FileJsonManager();
@@ -54,14 +51,12 @@ public class Main {
                         if(Files.exists(fileTimesPath)){
                             Files.delete(Paths.get("execTimes/execTimes.csv"));
                             System.out.println("ho cancellato la dir");
-                        }else{
-                            timesDirectory.mkdir();
-                        }
-//                        if(isNull(timesDirectory)) return;
+                        }else timesDirectory.mkdir();
+
 
                         for(String singlePDB : pdbList) {
                             long startJsonMs= System.currentTimeMillis();
-                            int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsv);
+                            int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel);
                             long endJsonMs = System.currentTimeMillis();
 
                             long starRingMs= System.currentTimeMillis();

@@ -44,16 +44,16 @@ public class Main {
 
                         File directory = new File(outputPath+"/aas");
                         if(!directory.mkdir()) System.out.println("FOLDER NOT CREATED");
-
                         File timesDirectory = new File("execTimes/execTimes.csv");
-                        Path fileTimesPath = Paths.get("execTimes","execTimes.csv");
+                        if (cmd.hasOption("t")) {
 
-                        if(Files.exists(fileTimesPath)){
-                            Files.delete(Paths.get("execTimes/execTimes.csv"));
-                            System.out.println("ho cancellato la dir");
-                        }else timesDirectory.mkdir();
+                            Path fileTimesPath = Paths.get("execTimes", "execTimes.csv");
 
-
+                            if (Files.exists(fileTimesPath)) {
+                                Files.delete(Paths.get("execTimes/execTimes.csv"));
+                                System.out.println("ho cancellato la dir");
+                            } else timesDirectory.mkdir();
+                        }
                         for(String singlePDB : pdbList) {
                             long startJsonMs= System.currentTimeMillis();
                             int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel);

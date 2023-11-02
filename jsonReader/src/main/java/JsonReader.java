@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonReader {
-    public static int reader(String singlePDB, String fileJson,String catena,File fileNameCsvLabel) throws Exception {
+    public static int reader(String singlePDB, String fileJson,String catena,File fileNameCsvLabel, String PDBDirectory, String PDBcutted) throws Exception {
         FileJsonManager fileReader = new FileJsonManager();
         JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
 
@@ -18,11 +18,12 @@ public class JsonReader {
         int start = startEnd[0], end = startEnd[1];
 
         PDBFileReader pdbReader = new PDBFileReader();
-        pdbReader.setPath("path_to_pdb_cache_directory"); //setting path where pdb generated with bioJava will be stored
+        String biojavaDirectory = PDBDirectory+"/path_to_pdb_cache_directory";
+        pdbReader.setPath(biojavaDirectory); //setting path where pdb generated with bioJava will be stored
         Structure structure = pdbReader.getStructureById((String) pdbObject.get("pdb_id"));
         structure.toPDB(); //generating pdb files
 
-        String pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/"+
+        String pdbPath =biojavaDirectory+"/data/structures/divided/pdb/"+
                 singlePDB.substring(1, 3) + "/pdb" + (pdbObject.get("pdb_id")) + ".ent.gz"; //is the pdb file complete path
 
         List<String> comando = new ArrayList<>();
@@ -31,10 +32,10 @@ public class JsonReader {
         ProcessBuilder processBuilder = new ProcessBuilder(comando);
         Process processo = processBuilder.start();
         processo.waitFor();
-        pdbPath = "path_to_pdb_cache_directory/data/structures/divided/pdb/"+
+        pdbPath = biojavaDirectory+"/data/structures/divided/pdb/"+
                 singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //path where we are going to unzip pdb files
 
-        fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, catena); //method used to cut pdb file
+        fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, catena,PDBcutted); //method used to cut pdb file
         return start;
     }
 }

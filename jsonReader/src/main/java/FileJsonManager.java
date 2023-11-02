@@ -75,9 +75,9 @@ public class FileJsonManager {
      * @param singlePDB is the current pdb
      * @param catena is the pdb's chain
      */
-    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena) {
+    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena, String cuttedPDBfilesPath) {
         String line;
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get("molecola"+singlePDB+".pdb")))) { //writing the reduced file in another file
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+singlePDB+".pdb")))) { //writing the reduced file in another file
             try (BufferedReader pdbReader = new BufferedReader(new FileReader(filePDB))) { //reading pdb file
                 while ((line = pdbReader.readLine()) != null) {
                     if (line.startsWith("ATOM")) {

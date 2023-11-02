@@ -13,6 +13,7 @@ public class AasParser {
      * @return the content of the aas formatted file
      */
     public ArrayList<String> readerEdges(File pdbEdgesFile,int start){
+
         ArrayList<String>  result = new ArrayList<>();
         StringBuilder aminoAcidList = new StringBuilder();
         StringBuilder bondList= new StringBuilder();

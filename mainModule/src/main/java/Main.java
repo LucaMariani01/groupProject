@@ -39,10 +39,9 @@ public class Main {
                         if (Files.exists(fileLabelPath)) Files.delete(Paths.get(outputPath+"/labels.csv"));
                         if(fileCsvLabel.createNewFile()) System.out.println("LABEL CSV FILE CREATED CORRECTLY");
 
-
                         try {
                             FileWriter writer = new FileWriter(fileCsvLabel, true);
-                            writer.write("Id" + ";" +  "Organism" + ";" + "Taxon" + "\n");
+                            writer.write("Id"+";"+"Organism"+";"+"Taxon\n");
                             writer.close();
                         } catch (IOException e) {throw new RuntimeException(e);}
 

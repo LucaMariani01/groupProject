@@ -26,9 +26,10 @@ public class LabelCsvGenerator {
             for (DBRef dbRef : targetChain.getStructure().getDBRefs())
                 if (dbRef.getDatabase().equalsIgnoreCase("UNP")) app = dbRef.getDbAccession();
         } else System.out.println("ID NULL : "+pdbId);
+
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.write(pdbId + pdbObject.get("pdb_chain").toString()+ ";" + app + ";" + classification + "\n");
+            writer.write(pdbId+pdbObject.get("pdb_chain").toString()+ ";" +app+";" + classification + "\n");
             writer.close();
         } catch (IOException e) { throw new RuntimeException(e); }
     }

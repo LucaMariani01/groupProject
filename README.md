@@ -27,6 +27,13 @@ Arc Annotated Sequence (AAS) file, inclueds sequence and bond list, expressed in
 `i_k, j_k` is withinthe range `[1,n]` where `n` is the length
 of the primary sequence and `i_k < j_k`  for all `k`.
 
+## Results 
+In the directory specified by the user, RingPdbAnalyzer.jar creates four directories:
+* *aas*  containing the generated files
+* *cutted pdb* containing the refactored .pdb files
+* *path_to_pdb_cache_directory* genereted by Biojava
+* *Ring result*
+  
 ## Requirements
 * *Java 8* or higher
 * *RING software* added to the PATH evironment variable

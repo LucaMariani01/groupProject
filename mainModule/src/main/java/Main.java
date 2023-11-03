@@ -8,6 +8,7 @@ import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
-
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
         Options options = getOptions();
 
@@ -86,14 +86,21 @@ public class Main {
                             if (Files.exists(fileTimesPath)) {
                                 Files.delete(Paths.get(cmd.getOptionValue("t")+"/execTimes.csv"));
                             }
-                            if(timesDirectory.createNewFile()) System.out.println("EXECUTION TIME CSV FILE CREATED CORRECTLY");
+                            if(timesDirectory.createNewFile()){
+                                try {
+                                    FileWriter writer = new FileWriter(timesDirectory, true);
+                                    writer.write("ReadingfPDBFromJSON" + ";" +  "RingExecutionTime" + ";" + "GeneratingAASTime" + "\n");
+                                    writer.close();
+                                } catch (IOException e) {throw new RuntimeException(e);}
+                                System.out.println("EXECUTION TIME CSV FILE CREATED CORRECTLY");
+                            }
                         }
 
 
                         FileJsonManager fileReader = new FileJsonManager();
                         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
-                        System.out.println("Analyzing...");
                         for(String singlePDB : pdbList) {
+                            System.out.println("Analyzing PDB: "+singlePDB);
                             long startJsonMs= System.currentTimeMillis();
                             int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel,outputPath,cuttedPDBdir.toString());
                             long endJsonMs = System.currentTimeMillis();

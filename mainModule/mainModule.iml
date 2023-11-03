@@ -14,9 +14,9 @@
     <orderEntry type="library" name="Maven: org.biojava:biojava-structure:7.0.2" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jmol:jmol:14.31.10" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.4" level="project" />
-    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.17.2" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.11.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.5.0" level="project" />
   </component>
 </module>

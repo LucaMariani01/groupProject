@@ -46,8 +46,11 @@ public class Main {
                             writer.close();
                         } catch (IOException e) {throw new RuntimeException(e);}
 
-                        FileUtils.cleanDirectory(new File(outputPath+"/path_to_pdb_cache_directory"));
-                        Files.delete(Paths.get(outputPath+"/path_to_pdb_cache_directory"));
+                        Path biojavaCachesPath = Paths.get(outputPath + "/path_to_pdb_cache_directory");
+                        if(Files.exists(biojavaCachesPath)){
+                            FileUtils.cleanDirectory(new File(outputPath+"/path_to_pdb_cache_directory"));
+                            Files.delete(biojavaCachesPath);
+                        }
 
 
                         Path pathCuttedPdb = Paths.get(outputPath + "/cuttedPDB");

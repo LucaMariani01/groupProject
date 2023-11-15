@@ -77,14 +77,19 @@ public class FileJsonManager {
      */
     public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena, String cuttedPDBfilesPath) {
         String line;
+        boolean endReached = false;
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+singlePDB+".pdb")))) { //writing the reduced file in another file
             try (BufferedReader pdbReader = new BufferedReader(new FileReader(filePDB))) { //reading pdb file
                 while ((line = pdbReader.readLine()) != null) {
                     if (line.startsWith("ATOM")) {
                         int startTemp = Integer.parseInt(line.substring(22, 26).trim()); //obtaining the start of this current line
                         String chain = String.valueOf(line.charAt(21));                 //obtaining the chain of this current line
-                        if (startTemp >= start && startTemp <= end && (chain.compareTo(catena) == 0)) //if the atom number is between the range we are going to write this line
+                        if (startTemp >= start && startTemp <= end && (chain.compareTo(catena) == 0)){
+                            if(startTemp == end) endReached = true;
+                            if((endReached) && startTemp != end)break;
                             writer.println(line);
+                        } //if the atom number is between the range we are going to write this line
+
                     }
                 }
                 writer.close();

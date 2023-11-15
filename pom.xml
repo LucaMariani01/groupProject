@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>org.biojava</groupId>
-            <artifactId>biojava-structure-gui</artifactId>
+            <artifactId>biojava-structure</artifactId>
             <version>7.0.2</version>
         </dependency>
         

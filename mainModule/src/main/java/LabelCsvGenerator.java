@@ -20,12 +20,17 @@ public class LabelCsvGenerator {
         }
 
         Chain targetChain = structure.getChain(pdbObject.get("pdb_chain").toString().toUpperCase());
+
         String app = "";
 
         if (targetChain != null) {
-            for (DBRef dbRef : targetChain.getStructure().getDBRefs())
-                if (dbRef.getDatabase().equalsIgnoreCase("UNP")) app = dbRef.getDbAccession();
-        } else System.out.println("ID NULL : "+pdbId);
+            for (DBRef dbRef : targetChain.getStructure().getDBRefs()){
+                if (dbRef.getDatabase().equalsIgnoreCase("UNP")) {
+                    app = dbRef.getDbAccession();
+                }
+            }
+            if(app.compareTo("")==0) app = "unknown";
+        } else app = "unknown";
 
         try {
             FileWriter writer = new FileWriter(fileName, true);

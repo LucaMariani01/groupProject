@@ -2,6 +2,8 @@ package main.java;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
 import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
 
@@ -98,21 +100,33 @@ public class Main {
 
                         FileJsonManager fileReader = new FileJsonManager();
                         ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
+                        boolean validPdb ;
+                        Structure structure;
                         for(String singlePDB : pdbList) {
+                            validPdb = true;
                             System.out.println("Analyzing PDB: "+singlePDB);
-                            long startJsonMs= System.currentTimeMillis();
-                            int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel,outputPath,cuttedPDBdir.toString());
-                            long endJsonMs = System.currentTimeMillis();
+                            //System.out.println(String.valueOf(singlePDB.charAt(singlePDB.length()-1)));
+                            try {
+                                 structure = StructureIO.getStructure(singlePDB.substring(0, singlePDB.length()-1));
+                            }catch (Exception e){
+                                System.out.println(e);
+                                validPdb = false;
+                            }
+                            if(validPdb){
+                                long startJsonMs= System.currentTimeMillis();
+                                int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel,outputPath,cuttedPDBdir.toString());
+                                long endJsonMs = System.currentTimeMillis();
 
-                            long starRingMs= System.currentTimeMillis();
+                                long starRingMs= System.currentTimeMillis();
 
-                            Ring.ringManager(singlePDB, ringDirectory.toString(), bondList,cuttedPDBdir.toString());  //passiamo il pdb corrente, il path di destinazione, e i legami da analizzare
-                            long endRingMs= System.currentTimeMillis();
+                                Ring.ringManager(singlePDB, ringDirectory.toString(), bondList,cuttedPDBdir.toString());  //passiamo il pdb corrente, il path di destinazione, e i legami da analizzare
+                                long endRingMs= System.currentTimeMillis();
 
-                            long startAasMs = System.currentTimeMillis();
-                            AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList,ringDirectory.toString());
-                            long endAasMs = System.currentTimeMillis();
-                            if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
+                                long startAasMs = System.currentTimeMillis();
+                                AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList,ringDirectory.toString());
+                                long endAasMs = System.currentTimeMillis();
+                                if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
+                            }
                         }
                     }
                 } else System.out.println("ERROR: use -h to view the help.");

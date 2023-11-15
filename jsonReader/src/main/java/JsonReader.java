@@ -10,6 +10,7 @@ import java.util.List;
 
 public class JsonReader {
     public static int reader(String singlePDB, String fileJson,String catena,File fileNameCsvLabel, String PDBDirectory, String PDBcutted) throws Exception {
+
         FileJsonManager fileReader = new FileJsonManager();
         JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
 
@@ -20,6 +21,7 @@ public class JsonReader {
         PDBFileReader pdbReader = new PDBFileReader();
         String biojavaDirectory = PDBDirectory+"/path_to_pdb_cache_directory";
         pdbReader.setPath(biojavaDirectory); //setting path where pdb generated with bioJava will be stored
+
         Structure structure = pdbReader.getStructureById((String) pdbObject.get("pdb_id"));
         structure.toPDB(); //generating pdb files
 

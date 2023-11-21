@@ -18,25 +18,26 @@ public class AasParser {
         ArrayList<String>  result = new ArrayList<>();
         StringBuilder aminoAcidList = new StringBuilder();
         StringBuilder bondList= new StringBuilder();
-        String lastAminoAcidList="";
         String lastBond="";
-        int cont =0;
+        boolean cont = true ;
         try (BufferedReader pdbEdgesReader = new BufferedReader(new FileReader(pdbEdgesFile))) {
             String line;
+
             while ((line = pdbEdgesReader.readLine()) != null) {
-                if(cont== 0) cont=1;
+                if(cont) cont=false;
                 else {
                     String[] lineItems = line.split(":");
                     aminoAcidList.append(this.parser(lineItems[3].substring(0, 3))).append(this.parser(lineItems[7].substring(0, 3)));
-                    //lastAminoAcidList.compareTo(this.parser(lineItems[3].substring(0, 3))
-                    //                            + this.parser(lineItems[7].substring(0, 3)))!=0 &&
-                    if (lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
-                            + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");")!=0) {
-                        if(selectedBond.contains(lineItems[3])) {
+                    if (lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");")!=0) {
+                        if(!selectedBond.isEmpty()){
+                            for(String bond : selectedBond){
+                                if(lineItems[3].contains(bond))
+                                    bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
+                            }
+                        }else{
                             bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
-                            //lastAminoAcidList=this.parser(lineItems[3].substring(0, 3)) + this.parser(lineItems[7].substring(0, 3));
-                            lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
                         }
+                        lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
                     }
                 }
             }
@@ -45,6 +46,8 @@ public class AasParser {
         result.add(bondList.toString());
         return result;
     }
+
+
 
     /**
      * This method is used to convert the amino acid three letter code

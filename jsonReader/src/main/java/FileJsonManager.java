@@ -29,6 +29,7 @@ public class FileJsonManager {
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
                 if(((String) jsonObject.get("repeatsdb_id")).compareTo(pdb) == 0) {
+
                     if (first){
                         minStart = Integer.parseInt((String) jsonObject.get("start"));
                         maxEnd = Integer.parseInt((String) jsonObject.get("end"));
@@ -114,5 +115,19 @@ public class FileJsonManager {
             }
         } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbList;
+    }
+
+    public ArrayList<JSONObject> getUnitList(File jsonDataset){
+        ArrayList<JSONObject> pdbUnitList = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader reader = new FileReader(jsonDataset);
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+                pdbUnitList.add((JSONObject)jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
+            }
+        } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
+        return pdbUnitList;
     }
 }

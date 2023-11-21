@@ -6,6 +6,7 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
 import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -97,37 +98,45 @@ public class Main {
                             }
                         }
 
+                        if(cmd.hasOption("u")){
+                            FileJsonManager fileReader = new FileJsonManager();
+                            ArrayList<JSONObject> pdbUnitsList = fileReader.getUnitList(new File(fileJson));
+                            for (JSONObject singleUnit : pdbUnitsList){
 
-                        FileJsonManager fileReader = new FileJsonManager();
-                        ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
-                        boolean validPdb ;
-                        Structure structure;
-                        for(String singlePDB : pdbList) {
-                            validPdb = true;
-                            System.out.println("Analyzing PDB: "+singlePDB);
-                            //System.out.println(String.valueOf(singlePDB.charAt(singlePDB.length()-1)));
-                            try {
-                                 structure = StructureIO.getStructure(singlePDB.substring(0, singlePDB.length()-1));
-                            }catch (Exception e){
-                                System.out.println(e);
-                                validPdb = false;
                             }
-                            if(validPdb){
-                                long startJsonMs= System.currentTimeMillis();
-                                int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel,outputPath,cuttedPDBdir.toString());
-                                long endJsonMs = System.currentTimeMillis();
+                        }else {
+                            FileJsonManager fileReader = new FileJsonManager();
+                            ArrayList<String> pdbList = fileReader.getPDBListJSON(new File(fileJson));
+                            boolean validPdb ;
+                            Structure structure;
+                            for(String singlePDB : pdbList) {
+                                validPdb = true;
+                                System.out.println("Analyzing PDB: "+singlePDB);
 
-                                long starRingMs= System.currentTimeMillis();
+                                try {
+                                    structure = StructureIO.getStructure(singlePDB.substring(0, singlePDB.length()-1));
+                                }catch (Exception e){
+                                    System.out.println(e);
+                                    validPdb = false;
+                                }
+                                if(validPdb){
+                                    long startJsonMs= System.currentTimeMillis();
+                                    int start = JsonReader.reader(singlePDB,fileJson,String.valueOf(singlePDB.charAt(singlePDB.length()-1)),fileCsvLabel,outputPath,cuttedPDBdir.toString());
+                                    long endJsonMs = System.currentTimeMillis();
 
-                                Ring.ringManager(singlePDB, ringDirectory.toString(), bondList,cuttedPDBdir.toString());  //passiamo il pdb corrente, il path di destinazione, e i legami da analizzare
-                                long endRingMs= System.currentTimeMillis();
+                                    long starRingMs= System.currentTimeMillis();
 
-                                long startAasMs = System.currentTimeMillis();
-                                AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList,ringDirectory.toString());
-                                long endAasMs = System.currentTimeMillis();
-                                if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
+                                    Ring.ringManager(singlePDB, ringDirectory.toString(), bondList,cuttedPDBdir.toString());  //passiamo il pdb corrente, il path di destinazione, e i legami da analizzare
+                                    long endRingMs= System.currentTimeMillis();
+
+                                    long startAasMs = System.currentTimeMillis();
+                                    AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList,ringDirectory.toString());
+                                    long endAasMs = System.currentTimeMillis();
+                                    if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
+                                }
                             }
                         }
+
                     }
                 } else System.out.println("ERROR: use -h to view the help.");
             }
@@ -147,11 +156,14 @@ public class Main {
         Option outputOption = new Option("o","output",true,"Insert the path where RING and AAS files will be saved.");
         options.addOption(outputOption);
 
-        Option bondOption = new Option("b","bond",true,"Insert the bond that you want to analyze. EX: HBOND, IONIC, VDW,...");
+        Option bondOption = new Option("b","bond",true,"Insert the bond that you want to analyze. EX: (HBOND, IONIC, VDW, IAC, PICATION, PIPISTACK, SSBOND)");
         options.addOption(bondOption);
 
         Option timeOption = new Option("t","time",true, "Insert the path where csv file containing execution time will be saved");
         options.addOption(timeOption);
+
+        Option unitOption = new Option("u","unit",false,"This option calculate AAS file for every unit of JSON dataset ");
+        options.addOption(unitOption);
 
         return options;
     }

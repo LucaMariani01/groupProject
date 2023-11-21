@@ -15,6 +15,7 @@ public class JsonReader {
         JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
 
         LabelCsvGenerator.generator(pdbObject,fileNameCsvLabel);
+
         Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,singlePDB);
         int start = startEnd[0], end = startEnd[1];
 

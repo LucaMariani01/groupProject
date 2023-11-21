@@ -22,11 +22,11 @@ public class Ring {
             System.out.println("RING "+e);
         }
 
-        if (!bondList.isEmpty()){
+        /*if (!bondList.isEmpty()){
             EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
             File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges");
             myFile.delete();
-        }
+        }*/
         File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringNodes");
         myFile.delete();
     }

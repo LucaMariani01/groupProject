@@ -43,7 +43,7 @@ public class Main {
 
                         try {
                             FileWriter writer = new FileWriter(fileCsvLabel, true);
-                            writer.write("Id"+";"+"Organism"+";"+"Taxon\n");
+                            writer.write("Id"+";"+"Uniprot"+";"+"Classification\n");
                             writer.close();
                         } catch (IOException e) {throw new RuntimeException(e);}
 

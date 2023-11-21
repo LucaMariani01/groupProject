@@ -11,8 +11,9 @@ public class AasParser {
      * @param pdbEdgesFile is the file containing the pdb's list of edges
      * @param start is the start of this current pdb
      * @return the content of the aas formatted file
+     *
      */
-    public ArrayList<String> readerEdges(File pdbEdgesFile,int start){
+    public ArrayList<String> readerEdges(File pdbEdgesFile,int start, ArrayList<String> selectedBond){
 
         ArrayList<String>  result = new ArrayList<>();
         StringBuilder aminoAcidList = new StringBuilder();
@@ -26,16 +27,16 @@ public class AasParser {
                 if(cont== 0) cont=1;
                 else {
                     String[] lineItems = line.split(":");
-                    if (lastAminoAcidList.compareTo(this.parser(lineItems[3].substring(0, 3))
-                            + this.parser(lineItems[7].substring(0, 3)))!=0 && lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
+                    aminoAcidList.append(this.parser(lineItems[3].substring(0, 3))).append(this.parser(lineItems[7].substring(0, 3)));
+                    //lastAminoAcidList.compareTo(this.parser(lineItems[3].substring(0, 3))
+                    //                            + this.parser(lineItems[7].substring(0, 3)))!=0 &&
+                    if (lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
                             + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");")!=0) {
-
-                        aminoAcidList.append(this.parser(lineItems[3].substring(0, 3))).append(this.parser(lineItems[7].substring(0, 3)));
-                        bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
-                        lastAminoAcidList=this.parser(lineItems[3].substring(0, 3))
-                                + this.parser(lineItems[7].substring(0, 3));
-                        lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + ","
-                                + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";
+                        if(selectedBond.contains(lineItems[3])) {
+                            bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
+                            //lastAminoAcidList=this.parser(lineItems[3].substring(0, 3)) + this.parser(lineItems[7].substring(0, 3));
+                            lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
+                        }
                     }
                 }
             }

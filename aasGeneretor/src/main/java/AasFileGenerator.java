@@ -9,9 +9,10 @@ public class AasFileGenerator {
         AasParser aasParser = new AasParser();
         ArrayList<String> result;
 
-        if (!bondList.isEmpty()) result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges_selBonds"),start);
-        else result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges"),start);
+        //if (!bondList.isEmpty()) result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges_selBonds"),start);
+        //else result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges"),start);
 
+        result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges"),start,bondList);
         aasParser.buildAASFile(result.get(0),result.get(1),outputPath,singlePDB);
     }
 }

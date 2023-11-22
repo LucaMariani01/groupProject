@@ -53,7 +53,7 @@ public class FileJsonManager {
      * @param pdb is the pdb we want to get pdb object
      * @return pdb object containing pdb data
      */
-    public JSONObject getPdbObject(String fileJSON, String pdb){
+    public JSONObject getPdbObject (String fileJSON, String pdb){
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(fileJSON);
@@ -68,29 +68,25 @@ public class FileJsonManager {
         return null;
     }
 
-    /**
-     * Method used to cut pdb file from start to end
-     * @param filePDB is the pdb file we are going to cut
-     * @param start is the pdb's start
-     * @param end is the pdb's end
-     * @param singlePDB is the current pdb
-     * @param catena is the pdb's chain
-     */
-    public  void pdbReaderRefactor(File filePDB,int start, int end, String singlePDB, String catena, String cuttedPDBfilesPath) {
+
+    public  void pdbReaderRefactor(File filePDB,int start, int end, PDB currentPDB, int unitNumber, String cuttedPDBfilesPath) {
         String line;
         boolean endReached = false;
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+singlePDB+".pdb")))) { //writing the reduced file in another file
+        PrintWriter writer;
+        try{
+            if(unitNumber != -1)  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb")));//writing the reduced file in another file
+            else  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+currentPDB.getRepeatsdbId()+".pdb")));//writing the reduced file in another file
+
             try (BufferedReader pdbReader = new BufferedReader(new FileReader(filePDB))) { //reading pdb file
                 while ((line = pdbReader.readLine()) != null) {
                     if (line.startsWith("ATOM")) {
                         int startTemp = Integer.parseInt(line.substring(22, 26).trim()); //obtaining the start of this current line
                         String chain = String.valueOf(line.charAt(21));                 //obtaining the chain of this current line
-                        if (startTemp >= start && startTemp <= end && (chain.compareTo(catena) == 0)){
+                        if (startTemp >= start && startTemp <= end && (chain.compareTo(currentPDB.getPdbChain()) == 0)){
                             if(startTemp == end) endReached = true;
                             if((endReached) && startTemp != end)break;
                             writer.println(line);
                         } //if the atom number is between the range we are going to write this line
-
                     }
                 }
                 writer.close();
@@ -103,31 +99,60 @@ public class FileJsonManager {
      * @param repeatsDBFile json file containing PDBs and corresponding data
      * @return list of all the PDBs in the json file
      */
-    public ArrayList<String> getPDBListJSON(File repeatsDBFile){
-        ArrayList<String> pdbList = new ArrayList<>();
+    public ArrayList<PDB> getPDBListJSON(File repeatsDBFile){
+        ArrayList<PDB> pdbList = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(repeatsDBFile);
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
-                if (!pdbList.contains(jsonObject.get("repeatsdb_id").toString()))pdbList.add((String) jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
+                if(pdbList.isEmpty()) pdbList.add(createPdbRecord(jsonObject));
+                for(PDB app : pdbList){
+                    if(jsonObject.get("repeatsdb_id").toString().compareTo(app.getRepeatsdbId()) != 0){
+                        pdbList.add(createPdbRecord(jsonObject));
+                    }
+                }
             }
         } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbList;
     }
 
-    public ArrayList<JSONObject> getUnitList(File jsonDataset){
-        ArrayList<JSONObject> pdbUnitList = new ArrayList<>();
+    public ArrayList<PDB> getUnitList(File jsonDataset){
+        ArrayList<PDB> pdbUnitList = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
             FileReader reader = new FileReader(jsonDataset);
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
             for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-                pdbUnitList.add((JSONObject)jsonObject.get("repeatsdb_id")); //if pdb already in the pdb list
+                pdbUnitList.add(createPdbRecord((JSONObject) obj));
             }
         } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbUnitList;
     }
+
+    private PDB createPdbRecord(JSONObject pdb){
+        return new PDB(
+                Integer.parseInt(pdb.get("start").toString()),
+                Integer.parseInt(pdb.get("end").toString()),
+                pdb.get("type").toString(),
+                Integer.parseInt(pdb.get("class").toString()),
+                Integer.parseInt(pdb.get("topology").toString()),
+                Integer.parseInt(pdb.get("fold").toString()),
+                Integer.parseInt(pdb.get("clan").toString()),
+                pdb.get("class_topology").toString(),
+                pdb.get("class_topology_fold").toString(),
+                pdb.get("class_topology_fold_clan").toString(),
+                pdb.get("pdb_id").toString(),
+                pdb.get("pdb_chain").toString(),
+                pdb.get("repeatsdb_id").toString(),
+                pdb.get("origin").toString(),
+                Boolean.parseBoolean(pdb.get("reviewed").toString()),
+                new String[1],
+                pdb.get("region_id").toString(),
+                Integer.parseInt(pdb.get("region_unit_num").toString()),
+                Double.parseDouble(pdb.get("region_average_unit_length").toString())
+        );
+    }
+
 }

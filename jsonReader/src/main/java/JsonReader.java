@@ -9,25 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonReader {
-    public static int reader(String singlePDB, String fileJson,String catena,File fileNameCsvLabel, String PDBDirectory, String PDBcutted) throws Exception {
+    public static int reader(PDB currentPDB, String fileJson,File fileNameCsvLabel, String PDBDirectory, String PDBcuttedDir, int unitNumber) throws Exception {
+        int start;
+        int end;
+        LabelCsvGenerator.generator(currentPDB,fileNameCsvLabel,unitNumber);
+        if(unitNumber == -1){//if unitnumber == -1 you are analyzing region
+            FileJsonManager fileReader = new FileJsonManager();
+            Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,currentPDB.getRepeatsdbId());
+            start = startEnd[0];
+            end = startEnd[1];
+        }else {//else unit number indicate the unit that you are analyzing
+            start = currentPDB.getStart();
+            end = currentPDB.getEnd();
+        }
+        biojavaGenPdb(PDBDirectory,PDBcuttedDir ,currentPDB, unitNumber, start,end);
+        return start;
+    }
 
+
+    private static void biojavaGenPdb(String PDBDirectory,String PDBcuttedDir, PDB currentPDB, int unitNumber, int start, int end)throws Exception{
         FileJsonManager fileReader = new FileJsonManager();
-        JSONObject pdbObject = fileReader.getPdbObject(fileJson, singlePDB); //pdbObject contains pdb's data
-
-        LabelCsvGenerator.generator(pdbObject,fileNameCsvLabel);
-
-        Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,singlePDB);
-        int start = startEnd[0], end = startEnd[1];
-
         PDBFileReader pdbReader = new PDBFileReader();
         String biojavaDirectory = PDBDirectory+"/path_to_pdb_cache_directory";
         pdbReader.setPath(biojavaDirectory); //setting path where pdb generated with bioJava will be stored
 
-        Structure structure = pdbReader.getStructureById((String) pdbObject.get("pdb_id"));
+        Structure structure = pdbReader.getStructureById(currentPDB.getPdbId());
         structure.toPDB(); //generating pdb files
 
         String pdbPath =biojavaDirectory+"/data/structures/divided/pdb/"+
-                singlePDB.substring(1, 3) + "/pdb" + (pdbObject.get("pdb_id")) + ".ent.gz"; //is the pdb file complete path
+                currentPDB.getRepeatsdbId().substring(1, 3) + "/pdb" + (currentPDB.getPdbId()) + ".ent.gz"; //is the pdb file complete path
 
         List<String> comando = new ArrayList<>();
         comando.add("gunzip"); //unzipping pdb files
@@ -36,9 +46,8 @@ public class JsonReader {
         Process processo = processBuilder.start();
         processo.waitFor();
         pdbPath = biojavaDirectory+"/data/structures/divided/pdb/"+
-                singlePDB.substring(1, 3)+"/pdb"+(pdbObject.get("pdb_id"))+".ent"; //path where we are going to unzip pdb files
-
-        fileReader.pdbReaderRefactor(new File(pdbPath), start, end, singlePDB, catena,PDBcutted); //method used to cut pdb file
-        return start;
+                currentPDB.getRepeatsdbId().substring(1, 3)+"/pdb"+(currentPDB.getPdbId())+".ent"; //path where we are going to unzip pdb files
+        if(unitNumber!=-1) fileReader.pdbReaderRefactor(new File(pdbPath), start, end, currentPDB,unitNumber,PDBcuttedDir); //method used to cut pdb file
+        else fileReader.pdbReaderRefactor(new File(pdbPath), start, end, currentPDB,unitNumber,PDBcuttedDir);
     }
 }

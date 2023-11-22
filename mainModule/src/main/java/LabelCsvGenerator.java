@@ -1,17 +1,16 @@
 package main.java;
 
 import org.biojava.nbio.structure.*;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class LabelCsvGenerator {
-    public static  void generator(JSONObject pdbObject, File fileName){
+    public static void generator(PDB currentPDB, File csvFileName, int unitNumber){
 
-        String pdbId = pdbObject.get("pdb_id").toString();
-        String classification =pdbObject.get("class_topology_fold_clan").toString();
+        String pdbId = currentPDB.getPdbId();
+        String classification =currentPDB.getClassTopologyFoldClan();
         Structure structure;
         try {
             structure = StructureIO.getStructure(pdbId);
@@ -19,7 +18,7 @@ public class LabelCsvGenerator {
             throw new RuntimeException(e);
         }
 
-        Chain targetChain = structure.getChain(pdbObject.get("pdb_chain").toString().toUpperCase());
+        Chain targetChain = structure.getChain(currentPDB.getPdbChain().toUpperCase());
 
         String app = "";
 
@@ -32,10 +31,19 @@ public class LabelCsvGenerator {
             if(app.compareTo("")==0) app = "unknown";
         } else app = "unknown";
 
+        if(unitNumber == -1 ){
+            writeLabel(pdbId+currentPDB.getPdbChain(), app, classification, csvFileName);
+        }else{
+            writeLabel(pdbId+currentPDB.getPdbChain()+"_"+unitNumber, app, classification, csvFileName);
+        }
+    }
+
+    private static void writeLabel(String Id, String uniprot, String classification, File csvFileName){
         try {
-            FileWriter writer = new FileWriter(fileName, true);
-            writer.write(pdbId+pdbObject.get("pdb_chain").toString()+ ";" +app+";" + classification + "\n");
+            FileWriter writer = new FileWriter(csvFileName, true);
+            writer.write(Id+ ";" +uniprot+";" + classification + "\n");
             writer.close();
         } catch (IOException e) { throw new RuntimeException(e); }
     }
+
 }

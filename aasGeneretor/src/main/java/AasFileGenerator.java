@@ -4,15 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class AasFileGenerator {
-    public static void aasFileGeneratorMain(String singlePDB, int start, String outputPath, ArrayList<String> bondList, String ringResultPath ) {
+    public static void aasFileGeneratorMain(PDB currentPDB, int start, String outputPath, ArrayList<String> bondList, String ringResultPath , int unitNumber) {
 
         AasParser aasParser = new AasParser();
         ArrayList<String> result;
+        String edgesFileName ;
 
-        //if (!bondList.isEmpty()) result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges_selBonds"),start);
-        //else result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges"),start);
+        if(unitNumber != -1 ) edgesFileName = currentPDB.getRepeatsdbId()+"_"+unitNumber;
+        else edgesFileName = currentPDB.getRepeatsdbId();
 
-        result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+singlePDB+".pdb_ringEdges"),start,bondList);
-        aasParser.buildAASFile(result.get(0),result.get(1),outputPath,singlePDB);
+        result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+edgesFileName+".pdb_ringEdges"),start,bondList);
+        aasParser.buildAASFile(result.get(0),result.get(1),outputPath,edgesFileName);
     }
 }

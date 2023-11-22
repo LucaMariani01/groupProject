@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Ring {
-    public static void ringManager(String singlePDB, String outputPath, ArrayList<String> bondList, String pdbCutted) {
+    public static void ringManager(PDB currentPDB, String outputPath, String pdbCuttedDir, int unitNumber) {
 
         ArrayList<String> comando = new ArrayList<>();
         comando.add("ring");
         comando.add("-i");
-        comando.add(pdbCutted+"/molecola"+singlePDB+".pdb");
+        if(unitNumber != -1) comando.add(pdbCuttedDir+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb");
+        else comando.add(pdbCuttedDir+"/molecola"+currentPDB.getRepeatsdbId()+".pdb");
         comando.add("--out_dir");
         comando.add(outputPath);
 
@@ -22,12 +23,9 @@ public class Ring {
             System.out.println("RING "+e);
         }
 
-        /*if (!bondList.isEmpty()){
-            EdgesSelector.selector(bondList,new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges"),outputPath);
-            File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringEdges");
-            myFile.delete();
-        }*/
-        File myFile = new File(outputPath+"/molecola"+singlePDB+".pdb_ringNodes");
+        File myFile;
+        if(unitNumber != -1) myFile = new File(outputPath+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb_ringNodes");
+        else myFile = new File(outputPath+"/molecola"+currentPDB.getRepeatsdbId()+".pdb_ringNodes");
         myFile.delete();
     }
 }

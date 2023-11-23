@@ -6,12 +6,10 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.chem.ChemCompGroupFactory;
 import org.biojava.nbio.structure.chem.ReducedChemCompProvider;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,6 +81,7 @@ public class Main {
 
                         File timesDirectory = null;
                         if (cmd.hasOption("t")) {
+
                             timesDirectory = new File(cmd.getOptionValue("t")+"/execTimes.csv");
                             Path fileTimesPath = Paths.get(cmd.getOptionValue("t"), "execTimes.csv");
                             if (Files.exists(fileTimesPath)) {
@@ -99,18 +98,22 @@ public class Main {
                         }
 
                         FileJsonManager fileReader = new FileJsonManager();
+
                         ArrayList<PDB> pdbList;
                         int unitNumberCount ;
                         if(cmd.hasOption("u")){
                             pdbList = fileReader.getUnitList(new File(fileJson));
                             unitNumberCount = 1;
                         }else {
+
                             pdbList = fileReader.getPDBListJSON(new File(fileJson));
+
                             unitNumberCount = -1;
                         }
-                        System.out.println("prima del ");
+
                         for(PDB singlePDB : pdbList) {
                             if(checkValidPdb(singlePDB)){
+                                System.out.println("Parsing pdb: "+ singlePDB.getRepeatsdbId()+" start min: "+singlePDB.getStart()+ "end : "+singlePDB.getEnd());
                                 if(unitNumberCount > singlePDB.getRegionUnitsNum()) unitNumberCount = 1;
                                 long startJsonMs= System.currentTimeMillis();
                                 int start = JsonReader.reader(singlePDB,fileJson,fileCsvLabel,outputPath,cuttedPDBdir.toString(),unitNumberCount);
@@ -128,8 +131,6 @@ public class Main {
                                 if(unitNumberCount != -1) unitNumberCount++;
                             }
                         }
-
-
                     }
                 } else System.out.println("ERROR: use -h to view the help.");
             }

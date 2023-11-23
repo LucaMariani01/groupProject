@@ -2,7 +2,6 @@ package main.java;
 
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.io.PDBFileReader;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,16 +11,12 @@ public class JsonReader {
     public static int reader(PDB currentPDB, String fileJson,File fileNameCsvLabel, String PDBDirectory, String PDBcuttedDir, int unitNumber) throws Exception {
         int start;
         int end;
+
         LabelCsvGenerator.generator(currentPDB,fileNameCsvLabel,unitNumber);
-        if(unitNumber == -1){//if unitnumber == -1 you are analyzing region
-            FileJsonManager fileReader = new FileJsonManager();
-            Integer[] startEnd = fileReader.getStartEndPdbJson(fileJson,currentPDB.getRepeatsdbId());
-            start = startEnd[0];
-            end = startEnd[1];
-        }else {//else unit number indicate the unit that you are analyzing
-            start = currentPDB.getStart();
-            end = currentPDB.getEnd();
-        }
+
+        start = currentPDB.getStart();
+        end = currentPDB.getEnd();
+
         biojavaGenPdb(PDBDirectory,PDBcuttedDir ,currentPDB, unitNumber, start,end);
         return start;
     }

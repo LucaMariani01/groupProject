@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class FileJsonManager {
 
@@ -102,17 +103,31 @@ public class FileJsonManager {
     public ArrayList<PDB> getPDBListJSON(File repeatsDBFile){
         ArrayList<PDB> pdbList = new ArrayList<>();
         JSONParser parser = new JSONParser();
+        Optional<PDB> lastPdbRead = Optional.empty();
+        Optional<PDB> appPdb = Optional.empty();
+        int appStart = 0;
+        int appEnd = 0;
+
         try {
             FileReader reader = new FileReader(repeatsDBFile);
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
             for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-                if(pdbList.isEmpty()) pdbList.add(createPdbRecord(jsonObject));
-                for(PDB app : pdbList){
-                    if(jsonObject.get("repeatsdb_id").toString().compareTo(app.getRepeatsdbId()) != 0){
-                        pdbList.add(createPdbRecord(jsonObject));
-                    }
+                JSONObject jsonObject = (JSONObject) obj;//pdb corrente
+                if(lastPdbRead.isEmpty()){
+                    lastPdbRead = Optional.of(createPdbRecord(jsonObject));
+                    appPdb = lastPdbRead;
                 }
+
+                if(jsonObject.get("repeatsdb_id").toString().compareTo(lastPdbRead.get().getRepeatsdbId())==0 ){
+                    appStart = Integer.parseInt(jsonObject.get("start").toString());
+                    appEnd = Integer.parseInt(jsonObject.get("end").toString());
+                    if(appStart<appPdb.get().getStart()) appPdb.get().setStart(appStart);
+                    if(appEnd>appPdb.get().getEnd()) appPdb.get().setEnd(appEnd);
+                }else{
+                    pdbList.add(appPdb.get());
+                    appPdb = Optional.of(createPdbRecord(jsonObject) );
+                }
+                lastPdbRead = Optional.of(createPdbRecord(jsonObject));
             }
         } catch (IOException | ParseException e) {  System.out.println("Something went wrong: " + e);  }
         return pdbList;
@@ -132,6 +147,7 @@ public class FileJsonManager {
     }
 
     private PDB createPdbRecord(JSONObject pdb){
+
         return new PDB(
                 Integer.parseInt(pdb.get("start").toString()),
                 Integer.parseInt(pdb.get("end").toString()),
@@ -150,9 +166,10 @@ public class FileJsonManager {
                 Boolean.parseBoolean(pdb.get("reviewed").toString()),
                 new String[1],
                 pdb.get("region_id").toString(),
-                Integer.parseInt(pdb.get("region_unit_num").toString()),
+                Integer.parseInt(pdb.get("region_units_num").toString()),
                 Double.parseDouble(pdb.get("region_average_unit_length").toString())
         );
+
     }
 
 }

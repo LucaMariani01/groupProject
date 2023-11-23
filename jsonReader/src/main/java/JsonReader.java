@@ -8,12 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonReader {
-    public static int reader(PDB currentPDB, String fileJson,File fileNameCsvLabel, String PDBDirectory, String PDBcuttedDir, int unitNumber) throws Exception {
+    public static int reader(PDB currentPDB,File fileNameCsvLabel, String PDBDirectory, String PDBcuttedDir, int unitNumber) throws Exception {
         int start;
         int end;
-
         LabelCsvGenerator.generator(currentPDB,fileNameCsvLabel,unitNumber);
-
         start = currentPDB.getStart();
         end = currentPDB.getEnd();
 

@@ -116,7 +116,7 @@ public class Main {
                                 System.out.println("Parsing pdb: "+ singlePDB.getRepeatsdbId()+" start min: "+singlePDB.getStart()+ "end : "+singlePDB.getEnd());
                                 if(unitNumberCount > singlePDB.getRegionUnitsNum()) unitNumberCount = 1;
                                 long startJsonMs= System.currentTimeMillis();
-                                int start = JsonReader.reader(singlePDB,fileJson,fileCsvLabel,outputPath,cuttedPDBdir.toString(),unitNumberCount);
+                                int start = JsonReader.reader(singlePDB,fileCsvLabel,outputPath,cuttedPDBdir.toString(),unitNumberCount);
                                 long endJsonMs = System.currentTimeMillis();
 
                                 long starRingMs= System.currentTimeMillis();

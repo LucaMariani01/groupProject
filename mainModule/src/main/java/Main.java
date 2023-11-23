@@ -15,6 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static main.java.BioJavaHandler.biojavaGenPdb;
+
 public class Main {
     public static void main(String[] args) {
         ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
@@ -35,13 +38,13 @@ public class Main {
 
                     if(!(fileJson.isEmpty() && outputPath.isEmpty())){
 
-                        File fileCsvLabel = new File(outputPath+"/labels.csv");
+                        File fileNameCsvLabel = new File(outputPath+"/labels.csv");
                         Path fileLabelPath = Paths.get(outputPath, "labels.csv");
                         if (Files.exists(fileLabelPath)) Files.delete(Paths.get(outputPath+"/labels.csv"));
-                        if(fileCsvLabel.createNewFile()) System.out.println("LABEL CSV FILE CREATED CORRECTLY");
+                        if(fileNameCsvLabel.createNewFile()) System.out.println("LABEL CSV FILE CREATED CORRECTLY");
 
                         try {
-                            FileWriter writer = new FileWriter(fileCsvLabel, true);
+                            FileWriter writer = new FileWriter(fileNameCsvLabel, true);
                             writer.write("Id"+";"+"Uniprot"+";"+"Classification\n");
                             writer.close();
                         } catch (IOException e) {throw new RuntimeException(e);}
@@ -116,7 +119,7 @@ public class Main {
                                 System.out.println("Parsing pdb: "+ singlePDB.getRepeatsdbId()+" start min: "+singlePDB.getStart()+ "end : "+singlePDB.getEnd());
                                 if(unitNumberCount > singlePDB.getRegionUnitsNum()) unitNumberCount = 1;
                                 long startJsonMs= System.currentTimeMillis();
-                                int start = JsonReader.reader(singlePDB,fileCsvLabel,outputPath,cuttedPDBdir.toString(),unitNumberCount);
+                                biojavaGenPdb(outputPath,cuttedPDBdir.toString(),singlePDB, unitNumberCount,fileNameCsvLabel);
                                 long endJsonMs = System.currentTimeMillis();
 
                                 long starRingMs= System.currentTimeMillis();
@@ -125,7 +128,7 @@ public class Main {
                                 long endRingMs= System.currentTimeMillis();
 
                                 long startAasMs = System.currentTimeMillis();
-                                AasFileGenerator.aasFileGeneratorMain(singlePDB,start,outputPath,bondList,ringDirectory.toString(),unitNumberCount);
+                                AasFileGenerator.aasFileGeneratorMain(singlePDB,singlePDB.getStart(),outputPath,bondList,ringDirectory.toString(),unitNumberCount);
                                 long endAasMs = System.currentTimeMillis();
                                 if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
                                 if(unitNumberCount != -1) unitNumberCount++;

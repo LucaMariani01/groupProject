@@ -7,20 +7,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonReader {
-    public static int reader(PDB currentPDB,File fileNameCsvLabel, String PDBDirectory, String PDBcuttedDir, int unitNumber) throws Exception {
-        int start;
-        int end;
+public class BioJavaHandler {
+    /**
+     * This method is used to generate pdb files using biojava library
+     * @param PDBDirectory is the directory where pdb files will be stored
+     * @param PDBcuttedDir is the directory where cutted pdb files will be stored
+     * @param currentPDB is the pdb that is being analyzed
+     * @param unitNumber is the unit number of the current pdb
+     */
+    public static void biojavaGenPdb(String PDBDirectory,String PDBcuttedDir, PDB currentPDB, int unitNumber,File fileNameCsvLabel)throws Exception{
         LabelCsvGenerator.generator(currentPDB,fileNameCsvLabel,unitNumber);
-        start = currentPDB.getStart();
-        end = currentPDB.getEnd();
-
-        biojavaGenPdb(PDBDirectory,PDBcuttedDir ,currentPDB, unitNumber, start,end);
-        return start;
-    }
-
-
-    private static void biojavaGenPdb(String PDBDirectory,String PDBcuttedDir, PDB currentPDB, int unitNumber, int start, int end)throws Exception{
         FileJsonManager fileReader = new FileJsonManager();
         PDBFileReader pdbReader = new PDBFileReader();
         String biojavaDirectory = PDBDirectory+"/path_to_pdb_cache_directory";
@@ -40,7 +36,7 @@ public class JsonReader {
         processo.waitFor();
         pdbPath = biojavaDirectory+"/data/structures/divided/pdb/"+
                 currentPDB.getRepeatsdbId().substring(1, 3)+"/pdb"+(currentPDB.getPdbId())+".ent"; //path where we are going to unzip pdb files
-        if(unitNumber!=-1) fileReader.pdbReaderRefactor(new File(pdbPath), start, end, currentPDB,unitNumber,PDBcuttedDir); //method used to cut pdb file
-        else fileReader.pdbReaderRefactor(new File(pdbPath), start, end, currentPDB,unitNumber,PDBcuttedDir);
+        if(unitNumber!=-1) fileReader.pdbReaderRefactor(new File(pdbPath), currentPDB,unitNumber,PDBcuttedDir); //method used to cut pdb file
+        else fileReader.pdbReaderRefactor(new File(pdbPath),currentPDB,unitNumber,PDBcuttedDir);
     }
 }

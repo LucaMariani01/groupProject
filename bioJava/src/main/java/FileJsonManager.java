@@ -70,8 +70,9 @@ public class FileJsonManager {
     }
 
 
-    public  void pdbReaderRefactor(File filePDB,int start, int end, PDB currentPDB, int unitNumber, String cuttedPDBfilesPath) {
+    public  void pdbReaderRefactor(File filePDB,PDB currentPDB, int unitNumber, String cuttedPDBfilesPath) {
         String line;
+        int start = currentPDB.getStart(),end = currentPDB.getEnd();
         boolean endReached = false;
         PrintWriter writer;
         try{

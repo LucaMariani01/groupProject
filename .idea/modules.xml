@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/aasGeneretor/aasGeneretor.iml" filepath="$PROJECT_DIR$/aasGeneretor/aasGeneretor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jsonReader/jsonReader.iml" filepath="$PROJECT_DIR$/jsonReader/jsonReader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bioJava/bioJava.iml" filepath="$PROJECT_DIR$/bioJava/bioJava.iml" />
       <module fileurl="file://$PROJECT_DIR$/mainModule/mainModule.iml" filepath="$PROJECT_DIR$/mainModule/mainModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/ring/ring.iml" filepath="$PROJECT_DIR$/ring/ring.iml" />
     </modules>

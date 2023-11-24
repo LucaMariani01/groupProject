@@ -14,62 +14,6 @@ import java.util.Optional;
 
 public class FileJsonManager {
 
-    /**
-     * This method is usedto get start and end of a given pdb
-     * @param fileJSON JSON file weare going to analyze
-     * @param pdb is the pdb we want to get start and end
-     * @return an array containing pdb start at index 0, pdb end at index 1
-     */
-    public Integer[] getStartEndPdbJson(String fileJSON,String pdb) {
-        int minStart=-1, maxEnd=-1;
-        boolean first= true;
-        JSONParser parser = new JSONParser();
-        try {
-            FileReader reader = new FileReader(fileJSON);
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-                if(((String) jsonObject.get("repeatsdb_id")).compareTo(pdb) == 0) {
-
-                    if (first){
-                        minStart = Integer.parseInt((String) jsonObject.get("start"));
-                        maxEnd = Integer.parseInt((String) jsonObject.get("end"));
-                        first=false;
-                    }else {
-                        if (Integer.parseInt((String) jsonObject.get("start")) < minStart) minStart = Integer.parseInt((String) jsonObject.get("start"));
-                        if (Integer.parseInt((String) jsonObject.get("end")) > maxEnd )  maxEnd = Integer.parseInt((String) jsonObject.get("end"));
-                    }
-                }
-            }
-        } catch (IOException | ParseException e) { System.out.println("Something went wrong while obtaining start and end"); }
-        Integer[] result = new Integer[2];
-        result[0] = minStart;
-        result[1] = maxEnd;
-        return (result);
-    }
-
-    /**
-     * This method is used to get pdb object containing pdb data in the json file
-     * @param fileJSON JSON file we are going to analyze
-     * @param pdb is the pdb we want to get pdb object
-     * @return pdb object containing pdb data
-     */
-    public JSONObject getPdbObject (String fileJSON, String pdb){
-        JSONParser parser = new JSONParser();
-        try {
-            FileReader reader = new FileReader(fileJSON);
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-                if(((String) jsonObject.get("repeatsdb_id")).compareTo(pdb) == 0) {
-                    return jsonObject;
-                }
-            }
-        } catch (IOException | ParseException e) { System.out.println("JSON File exception"); }
-        return null;
-    }
-
-
     public  void pdbReaderRefactor(File filePDB,PDB currentPDB, int unitNumber, String cuttedPDBfilesPath) {
         String line;
         int start = currentPDB.getStart(),end = currentPDB.getEnd();
@@ -153,10 +97,10 @@ public class FileJsonManager {
                 Integer.parseInt(pdb.get("start").toString()),
                 Integer.parseInt(pdb.get("end").toString()),
                 pdb.get("type").toString(),
-                Integer.parseInt(pdb.get("class").toString()),
-                Integer.parseInt(pdb.get("topology").toString()),
-                Integer.parseInt(pdb.get("fold").toString()),
-                Integer.parseInt(pdb.get("clan").toString()),
+                pdb.get("class").toString(),
+                pdb.get("topology").toString(),
+                pdb.get("fold").toString(),
+                pdb.get("clan").toString(),
                 pdb.get("class_topology").toString(),
                 pdb.get("class_topology_fold").toString(),
                 pdb.get("class_topology_fold_clan").toString(),
@@ -164,11 +108,11 @@ public class FileJsonManager {
                 pdb.get("pdb_chain").toString(),
                 pdb.get("repeatsdb_id").toString(),
                 pdb.get("origin").toString(),
-                Boolean.parseBoolean(pdb.get("reviewed").toString()),
+                pdb.get("reviewed").toString(),
                 new String[1],
                 pdb.get("region_id").toString(),
-                Integer.parseInt(pdb.get("region_units_num").toString()),
-                Double.parseDouble(pdb.get("region_average_unit_length").toString())
+                pdb.get("region_units_num").toString(),
+                pdb.get("region_average_unit_length").toString()
         );
 
     }

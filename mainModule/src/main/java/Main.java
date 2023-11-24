@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static main.java.BioJavaHandler.biojavaGenPdb;
 
@@ -83,6 +84,7 @@ public class Main {
                         if(ringDirectory.mkdir()) System.out.println("RING RESULT DIRECTORY CREATED CORRECTLY");
 
                         File timesDirectory = null;
+
                         if (cmd.hasOption("t")) {
 
                             timesDirectory = new File(cmd.getOptionValue("t")+"/execTimes.csv");
@@ -101,23 +103,28 @@ public class Main {
                         }
 
                         FileJsonManager fileReader = new FileJsonManager();
-
                         ArrayList<PDB> pdbList;
                         int unitNumberCount ;
                         if(cmd.hasOption("u")){
                             pdbList = fileReader.getUnitList(new File(fileJson));
                             unitNumberCount = 1;
                         }else {
-
                             pdbList = fileReader.getPDBListJSON(new File(fileJson));
-
                             unitNumberCount = -1;
                         }
-
+                        Optional<PDB> lastPDBread = Optional.empty();
                         for(PDB singlePDB : pdbList) {
                             if(checkValidPdb(singlePDB)){
-                                System.out.println("Parsing pdb: "+ singlePDB.getRepeatsdbId()+" start min: "+singlePDB.getStart()+ "end : "+singlePDB.getEnd());
-                                if(unitNumberCount > singlePDB.getRegionUnitsNum()) unitNumberCount = 1;
+                                if(unitNumberCount != -1){
+                                    if( lastPDBread.isEmpty() ){
+                                        lastPDBread = Optional.of(singlePDB);
+                                    }else {
+                                        if(lastPDBread.get().getRepeatsdbId().compareTo(singlePDB.getRepeatsdbId()) == 0 )unitNumberCount++;
+                                        else unitNumberCount = 1;
+                                        System.out.println("Analyze pdb: "+ singlePDB.getRepeatsdbId()+" unit: "+unitNumberCount);
+                                    }
+                                }else System.out.println("Analyze pdb: "+ singlePDB.getRepeatsdbId());
+
                                 long startJsonMs= System.currentTimeMillis();
                                 biojavaGenPdb(outputPath,cuttedPDBdir.toString(),singlePDB, unitNumberCount,fileNameCsvLabel);
                                 long endJsonMs = System.currentTimeMillis();
@@ -131,7 +138,7 @@ public class Main {
                                 AasFileGenerator.aasFileGeneratorMain(singlePDB,singlePDB.getStart(),outputPath,bondList,ringDirectory.toString(),unitNumberCount);
                                 long endAasMs = System.currentTimeMillis();
                                 if( cmd.hasOption("t")) TimeController.executionTimeManager(endJsonMs-startJsonMs,endRingMs-starRingMs,endAasMs-startAasMs,timesDirectory.toString() );
-                                if(unitNumberCount != -1) unitNumberCount++;
+                                if(unitNumberCount != -1) lastPDBread = Optional.of(singlePDB);
                             }
                         }
                     }

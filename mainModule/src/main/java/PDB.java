@@ -4,10 +4,10 @@ public class PDB {
     private  int start;
     private  int end;
     private  String type;
-    private  int classPdb;
-    private  int topology;
-    private  int fold;
-    private  int clan;
+    private  String classPdb;
+    private  String topology;
+    private  String fold;
+    private  String clan;
     private  String classTopology;
     private  String classTopologyFold;
     private  String classTopologyFoldClan;
@@ -15,17 +15,17 @@ public class PDB {
     private  String pdbChain;
     private  String repeatsdbId;
     private  String origin;
-    private  boolean reviewed;
+    private  String reviewed;
     private  String[] annotator;
     private  String regionId;
-    private  int regionUnitsNum;
-    private  double regionAverageUnitLength;
+    private  String regionUnitsNum;
+    private  String regionAverageUnitLength;
 
     // Costruttore
-    public PDB(int start, int end, String type, int classPdb, int topology, int fold, int clan,
+    public PDB(int start, int end, String type, String classPdb, String topology, String fold, String clan,
                String classTopology, String classTopologyFold, String classTopologyFoldClan,
-               String pdbId, String pdbChain, String repeatsdbId, String origin, boolean reviewed,
-               String[] annotator, String regionId, int regionUnitsNum, double regionAverageUnitLength) {
+               String pdbId, String pdbChain, String repeatsdbId, String origin, String reviewed,
+               String[] annotator, String regionId, String regionUnitsNum, String regionAverageUnitLength) {
         this.start = start;
         this.end = end;
         this.type = type;
@@ -71,35 +71,35 @@ public class PDB {
         this.type = type;
     }
 
-    public int getClassPdb() {
+    public String getClassPdb() {
         return classPdb;
     }
 
-    public void setClassPdb(int classPdb) {
+    public void setClassPdb(String classPdb) {
         this.classPdb = classPdb;
     }
 
-    public int getTopology() {
+    public String getTopology() {
         return topology;
     }
 
-    public void setTopology(int topology) {
+    public void setTopology(String topology) {
         this.topology = topology;
     }
 
-    public int getFold() {
+    public String getFold() {
         return fold;
     }
 
-    public void setFold(int fold) {
+    public void setFold(String fold) {
         this.fold = fold;
     }
 
-    public int getClan() {
+    public String getClan() {
         return clan;
     }
 
-    public void setClan(int clan) {
+    public void setClan(String clan) {
         this.clan = clan;
     }
 
@@ -159,11 +159,11 @@ public class PDB {
         this.origin = origin;
     }
 
-    public boolean isReviewed() {
+    public String isReviewed() {
         return reviewed;
     }
 
-    public void setReviewed(boolean reviewed) {
+    public void setReviewed(String reviewed) {
         this.reviewed = reviewed;
     }
 
@@ -183,19 +183,19 @@ public class PDB {
         this.regionId = regionId;
     }
 
-    public int getRegionUnitsNum() {
+    public String getRegionUnitsNum() {
         return regionUnitsNum;
     }
 
-    public void setRegionUnitsNum(int regionUnitsNum) {
+    public void setRegionUnitsNum(String regionUnitsNum) {
         this.regionUnitsNum = regionUnitsNum;
     }
 
-    public double getRegionAverageUnitLength() {
+    public String getRegionAverageUnitLength() {
         return regionAverageUnitLength;
     }
 
-    public void setRegionAverageUnitLength(double regionAverageUnitLength) {
+    public void setRegionAverageUnitLength(String regionAverageUnitLength) {
         this.regionAverageUnitLength = regionAverageUnitLength;
     }
 }

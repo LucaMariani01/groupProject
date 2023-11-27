@@ -118,6 +118,7 @@ public class Main {
                                 if(unitNumberCount != -1){
                                     if( lastPDBread.isEmpty() ){
                                         lastPDBread = Optional.of(singlePDB);
+                                        System.out.println("Analyze pdb: "+ singlePDB.getRepeatsdbId()+" unit: "+unitNumberCount);
                                     }else {
                                         if(lastPDBread.get().getRepeatsdbId().compareTo(singlePDB.getRepeatsdbId()) == 0 )unitNumberCount++;
                                         else unitNumberCount = 1;

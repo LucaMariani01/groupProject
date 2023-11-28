@@ -13,7 +13,11 @@ Produces a list of AAS file contained in the path/to/outputAasDirectory director
 
 * `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory -b arcType`
 
-Produces a list of AAS file contained in the path/to/outputAasDirectory directory, corresponding to the PDBs contained in the inputJsonFile.json file, but using this command, only the selected types of arc will be analyzed.
+Produces a list of AAS file contained in the path/to/outputAasDirectory directory, corresponding to the PDBs contained in the inputJsonFile.json file, but using this command, only the selected types of arc will be analyzed, the arc list is: HBOND, IAC, IONIC, PICATION, PIPISTACK, SSBOND, VDW.
+
+* `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory -u`
+
+This command analyzes all the unit contained in the protein dataset (JSON file), and not just the regions.
 
 * `> java -jar RingPdbAnalyzer.jar -i path/to/inputJsonFile.json -o path/to/outputAasDirectory -t path/to/executionTimeDirectory`
 
@@ -33,10 +37,13 @@ In the output directory specified by the user, RingPdbAnalyzer.jar creates four 
 * *cutted pdb* containing the refactored .pdb files
 * *path_to_pdb_cache_directory* genereted by Biojava
 * *Ring result*
+* *labels.csv* is the label csv file, each label represents a pdb with three parameters: PDB, UNIPROT, classification
+* *execTime.csv* is the file generated using -t command, where execution times are written
   
 ## Requirements
 * *Java 8* or higher
 * *RING software* added to the PATH evironment variable
+* Internet connection to use biojava library
 
 ## Credits
 

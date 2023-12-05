@@ -31,13 +31,16 @@ public class AasParser {
                     if (lastBond.compareTo("(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");")!=0) {
                         if(!selectedBond.isEmpty()){
                             for(String bond : selectedBond){
-                                if(lineItems[3].contains(bond))
+                                if(lineItems[3].contains(bond)){
                                     bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
+                                    lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
+                                }
                             }
                         }else{
                             bondList.append("(").append((Integer.parseInt(lineItems[1]) - start) + 1).append(",").append((Integer.parseInt(lineItems[5]) - start) + 1).append(");");
+                            lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
                         }
-                        lastBond= "(" + ((Integer.parseInt(lineItems[1]) - start) + 1) + "," + ((Integer.parseInt(lineItems[5]) - start) + 1) + ");";//save last bond to avoid duplicate
+
                     }
                 }
             }

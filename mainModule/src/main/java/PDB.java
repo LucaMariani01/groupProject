@@ -1,5 +1,8 @@
 package main.java;
 
+/**
+ * This class represent a record of JSON protein dataset
+ */
 public class PDB {
     private  int start;
     private  int end;

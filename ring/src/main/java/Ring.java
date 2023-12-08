@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Ring {
+    /**
+     * This method is used to execute the softare "ring"
+     * @param currentPDB is the proteind that we are analyzing
+     * @param outputPath is the path where ring result files will be stored
+     * @param pdbCuttedDir is the dire that contain refactored pdb given in input to ring
+     * @param unitNumber represent the unit or region of the protein
+     */
     public static void ringManager(PDB currentPDB, String outputPath, String pdbCuttedDir, int unitNumber) {
 
         ArrayList<String> comando = new ArrayList<>();

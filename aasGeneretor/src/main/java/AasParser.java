@@ -50,12 +50,10 @@ public class AasParser {
         return result;
     }
 
-
-
     /**
-     * This method is used to convert the amino acid three letter code
+     * This method is used to convert the amino acid 3-letter code
      * into the IUPAC amino acid code
-     * @param s is the amino acid three letter code
+     * @param s is the amino acid 3-letter code
      * @return the corresponding IUPAC amino acid code
      */
     private String parser(String s){

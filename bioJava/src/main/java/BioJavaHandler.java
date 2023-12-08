@@ -13,7 +13,7 @@ public class BioJavaHandler {
      * @param PDBDirectory is the directory where pdb files will be stored
      * @param PDBcuttedDir is the directory where cutted pdb files will be stored
      * @param currentPDB is the pdb that is being analyzed
-     * @param unitNumber is the unit number of the current pdb
+     * @param unitNumber is the unit or region number of the current pdb
      */
     public static void biojavaGenPdb(String PDBDirectory,String PDBcuttedDir, PDB currentPDB, int unitNumber,File fileNameCsvLabel)throws Exception{
         LabelCsvGenerator.generator(currentPDB,fileNameCsvLabel,unitNumber);
@@ -25,7 +25,7 @@ public class BioJavaHandler {
         Structure structure = pdbReader.getStructureById(currentPDB.getPdbId());
         structure.toPDB(); //generating pdb files
 
-        String pdbPath =biojavaDirectory+"/data/structures/divided/pdb/"+
+        String pdbPath = biojavaDirectory+"/data/structures/divided/pdb/"+
                 currentPDB.getRepeatsdbId().substring(1, 3) + "/pdb" + (currentPDB.getPdbId()) + ".ent.gz"; //is the pdb file complete path
 
         List<String> comando = new ArrayList<>();

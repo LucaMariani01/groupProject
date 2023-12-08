@@ -14,6 +14,13 @@ import java.util.Optional;
 
 public class FileJsonManager {
 
+    /**
+     * This method refactor the ent (pdb) file generate by Biojava. This method allow us to considerate only record ATOM
+     * @param filePDB pdb file generate
+     * @param currentPDB the protein that we are analyze
+     * @param unitNumber this represents the unit or region
+     * @param cuttedPDBfilesPath this is the location were refactored file were stored
+     */
     public  void pdbReaderRefactor(File filePDB,PDB currentPDB, int unitNumber, String cuttedPDBfilesPath) {
         String line;
         int start = currentPDB.getStart(),end = currentPDB.getEnd();
@@ -78,6 +85,11 @@ public class FileJsonManager {
         return pdbList;
     }
 
+    /**
+     * this method is used to get all protein unut from the dataset
+     * @param jsonDataset is the JSON dataset by RepeatsDB.org
+     * @return a list af all protein unit in the dataset
+     */
     public ArrayList<PDB> getUnitList(File jsonDataset){
         ArrayList<PDB> pdbUnitList = new ArrayList<>();
         JSONParser parser = new JSONParser();
@@ -91,8 +103,12 @@ public class FileJsonManager {
         return pdbUnitList;
     }
 
+    /**
+     * this is a support method used to build an object that represent on eprotein of the dataset
+     * @param pdb record from Json dataset
+     * @return an object that represent the protein
+     */
     private PDB createPdbRecord(JSONObject pdb){
-
         return new PDB(
                 Integer.parseInt(pdb.get("start").toString()),
                 Integer.parseInt(pdb.get("end").toString()),

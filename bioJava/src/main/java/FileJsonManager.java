@@ -27,8 +27,8 @@ public class FileJsonManager {
         boolean endReached = false;
         PrintWriter writer;
         try{
-            if(unitNumber != -1)  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb")));//writing the reduced file in another file
-            else  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/molecola"+currentPDB.getRepeatsdbId()+".pdb")));//writing the reduced file in another file
+            if(unitNumber != -1)  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb")));//writing the reduced file in another file
+            else  writer = new PrintWriter(Files.newBufferedWriter(Paths.get(cuttedPDBfilesPath+"/"+currentPDB.getRepeatsdbId()+".pdb")));//writing the reduced file in another file
 
             try (BufferedReader pdbReader = new BufferedReader(new FileReader(filePDB))) { //reading pdb file
                 while ((line = pdbReader.readLine()) != null) {

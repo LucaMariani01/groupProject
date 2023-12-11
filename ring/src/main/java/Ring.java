@@ -17,8 +17,8 @@ public class Ring {
         ArrayList<String> comando = new ArrayList<>();
         comando.add("ring");
         comando.add("-i");
-        if(unitNumber != -1) comando.add(pdbCuttedDir+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb");
-        else comando.add(pdbCuttedDir+"/molecola"+currentPDB.getRepeatsdbId()+".pdb");
+        if(unitNumber != -1) comando.add(pdbCuttedDir+"/"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb");
+        else comando.add(pdbCuttedDir+"/"+currentPDB.getRepeatsdbId()+".pdb");
         comando.add("--out_dir");
         comando.add(outputPath);
 
@@ -31,8 +31,8 @@ public class Ring {
         }
 
         File myFile;
-        if(unitNumber != -1) myFile = new File(outputPath+"/molecola"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb_ringNodes");
-        else myFile = new File(outputPath+"/molecola"+currentPDB.getRepeatsdbId()+".pdb_ringNodes");
+        if(unitNumber != -1) myFile = new File(outputPath+"/"+currentPDB.getRepeatsdbId()+"_"+unitNumber+".pdb_ringNodes");
+        else myFile = new File(outputPath+"/"+currentPDB.getRepeatsdbId()+".pdb_ringNodes");
         myFile.delete();
     }
 }

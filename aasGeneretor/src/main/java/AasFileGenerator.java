@@ -22,7 +22,7 @@ public class AasFileGenerator {
         if(unitNumber != -1 ) edgesFileName = currentPDB.getRepeatsdbId()+"_"+unitNumber;
         else edgesFileName = currentPDB.getRepeatsdbId();
 
-        result = aasParser.readerEdges(new File(ringResultPath+"/molecola"+edgesFileName+".pdb_ringEdges"),start,bondList);
+        result = aasParser.readerEdges(new File(ringResultPath+"/"+edgesFileName+".pdb_ringEdges"),start,bondList);
         aasParser.buildAASFile(result.get(0),result.get(1),outputPath,edgesFileName);
     }
 }

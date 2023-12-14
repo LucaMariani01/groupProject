@@ -14,7 +14,7 @@ public class TimeController {
     public static void executionTimeManager(long jsonTime, long ringTime, long aasTime, String fileName){
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.write(jsonTime + ";" + ringTime + ";" + aasTime + ";");
+            writer.write(jsonTime + ";" + ringTime + ";" + aasTime + ";"+ "\n");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
